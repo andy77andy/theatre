@@ -33,9 +33,9 @@ class AwardAdmin(admin.ModelAdmin):
     list_filter = ("year",)
 
 
-# @admin.register(Director)
-# class DirectorAdmin(admin.ModelAdmin):
-#     search_fields = ("last_name",)
+@admin.register(Director)
+class DirectorAdmin(admin.ModelAdmin):
+    search_fields = ("last_name",)
 #
 #
 # @admin.register(Play)
