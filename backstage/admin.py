@@ -36,11 +36,11 @@ class AwardAdmin(admin.ModelAdmin):
 @admin.register(Director)
 class DirectorAdmin(admin.ModelAdmin):
     search_fields = ("last_name",)
-#
-#
-# @admin.register(Play)
-# class PlayAdmin(admin.ModelAdmin):
-#     search_fields = ("name",)
+
+
+@admin.register(Play)
+class PlayAdmin(admin.ModelAdmin):
+    search_fields = ("name",)
 #
 #
 # @admin.register(Genre)
