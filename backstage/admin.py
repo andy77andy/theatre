@@ -41,8 +41,8 @@ class DirectorAdmin(admin.ModelAdmin):
 @admin.register(Play)
 class PlayAdmin(admin.ModelAdmin):
     search_fields = ("name",)
-#
-#
-# @admin.register(Genre)
-# class PlayAdmin(admin.ModelAdmin):
-#     pass
+
+
+@admin.register(Genre)
+class PlayAdmin(admin.ModelAdmin):
+    pass
