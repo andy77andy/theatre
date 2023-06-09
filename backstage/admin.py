@@ -5,11 +5,10 @@ from .models import Actor
 
 @admin.register(Actor)
 class ActorAdmin(UserAdmin):
-    pass
-    # list_display = UserAdmin.list_display + ("average_fee", "awards",)
-    # fieldsets = UserAdmin.fieldsets + (
-    #     (("Additional info", {"fields": ("average_fee", "awards",)}),)
-    # )
+    list_display = UserAdmin.list_display + ("average_fee", "awards",)
+    fieldsets = UserAdmin.fieldsets + (
+        (("Additional info", {"fields": ("average_fee", "awards",)}),)
+    )
     #
     # add_fieldsets = UserAdmin.add_fieldsets + (
     #     (
