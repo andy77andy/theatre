@@ -1,0 +1,17 @@
+
+
+
+    <h1><strong>Welocme to our Theatre!</strong></h1>
+    <h2><strong>Home:</strong></h2>
+    <p>Theatre</p>
+    <h2>Dynamic content</h2>
+    <p>Blog has the following record counts:</p>
+    <ul>
+        <li><strong>Actors:</strong> {{ num_actors }}</li>
+        <li><strong>Directors:</strong> {{ num_directors }}</li>
+        <li><strong>Plays:</strong> {{ num_plays }}</li>
+    </ul>
+
+    <p>You have visited this page
+        {{ num_visits }} time{{ num_visits|pluralize }}.
+    </p>
