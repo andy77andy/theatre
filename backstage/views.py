@@ -15,7 +15,7 @@ def index(request):
     request.session["num_visits"] = num_visits + 1
 
     context = {
-        "num_users": num_actors,
+        "num_actors": num_actors,
         "num_directors": num_directors,
         "num_plays": num_plays,
         "num_visits": num_visits + 1,
