@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+{#{% load crispy_forms_filters %}#}
+
+{% block content %}
+    <a href="{% url "backstage:director-list" %}" class="btn btn-primary link-to-page"><h1>Our Directors</h1></a>
+        {% if director_list %}
+            {% for director in director_list %}
+                <p><a href="{% url "backstage:director-detail" pk=director.id  %}" class="btn btn-secondary link-to-page">{{ director.first_name }} {{ director.last_name }}
+    </a></p>
+            {% endfor %}
+            {% else %}
+            <p>There are no directors in the theatre</p>
+        {% endif %}
+
+
+{% endblock %}
