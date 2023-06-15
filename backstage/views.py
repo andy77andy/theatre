@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.views import generic
 
 from backstage.models import Award, Actor, Director, Play
 
@@ -22,3 +23,10 @@ def index(request):
     }
 
     return render(request, "backstage/index.html", context=context)
+
+
+class ActorListView(generic.ListView):
+    model = Actor
+    queryset = (
+        Actor.objects.prefetch_related("awards")
+    )

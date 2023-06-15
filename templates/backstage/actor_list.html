@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{#{% load crispy_forms_filters %}#}
+
+{% block content %}
+  <h1>Our Actors</h1>
+    <a href="{% url "backstage:actor-list" %}" class="btn btn-primary link-to-page"></a>
+        {% if actor_list %}
+            {% for actor in actor_list %}
+                <a href="{% url "backstage:actor-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ actor.first_name }} {{ actor.last_name }}
+    </a>
+            {% endfor %}
+            {% else %}
+            <p>There are no actors in the theatre</p>
+        {% endif %}
+
+{#          <a href="{% url "taxi:car-detail" pk=car.id %} ">{{ car.id }}</a>#}
+
+
+{% endblock %}
