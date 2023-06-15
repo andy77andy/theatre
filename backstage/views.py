@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views import generic
 
-from backstage.models import Award, Actor, Director, Play
+from backstage.models import Award, Actor, Director, Play, Genre
 
 
 # @login_required
@@ -30,3 +30,27 @@ class ActorListView(generic.ListView):
     queryset = (
         Actor.objects.prefetch_related("awards")
     )
+
+
+class ActorDetailView(generic.DetailView):
+    model = Actor
+    queryset = Actor.objects.prefetch_related("awards")
+        # prefetch_related("play__actors")
+
+
+class DirectorListView(generic.ListView):
+    model = Director
+    queryset = (
+        Director.objects.prefetch_related("awards")
+    )
+
+
+class GenreListView(generic.ListView):
+    model = Genre
+
+
+class PlayListView(generic.ListView):
+    model = Director
+    queryset = (
+        Play.objects.prefetch_related("awards")
+    ).prefetch_related("actors").prefetch_related("directors")
