@@ -7,7 +7,7 @@ from .models import Actor, Award, Director, Play, Genre
 class ActorAdmin(UserAdmin):
     list_display = UserAdmin.list_display + ("average_fee", )
     fieldsets = UserAdmin.fieldsets + (
-        (("Additional info", {"fields": ("average_fee", "awards",)}),)
+        (("Additional info", {"fields": ("average_fee", "awards", "year_of_joining",)}),)
     )
 
     add_fieldsets = UserAdmin.add_fieldsets + (
@@ -21,16 +21,24 @@ class ActorAdmin(UserAdmin):
                         "last_name",
                         "average_fee",
                         "awards",
+                        "year_of_joining",
                     )
                 },
             ),
         )
     )
+    list_filter = ("year_of_joining",)
+    search_fields = ("name",)
 
 
 @admin.register(Award)
 class AwardAdmin(admin.ModelAdmin):
-    list_filter = ("year",)
+    pass
+
+
+@admin.register(Award)
+class GenreAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(Director)
@@ -38,11 +46,7 @@ class DirectorAdmin(admin.ModelAdmin):
     search_fields = ("last_name",)
 
 
-@admin.register(Play)
-class PlayAdmin(admin.ModelAdmin):
-    search_fields = ("name",)
-
-
 @admin.register(Genre)
 class PlayAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ("genre",)
+    search_fields = ("name",)

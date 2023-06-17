@@ -4,11 +4,17 @@
 {#{% load crispy_forms_filters %}#}
 
 {% block content %}
-    <a href="{% url "backstage:actor-list" %}" class="btn btn-primary link-to-page"><h1>Our Actors</h1></a>
-        {% if actor_list %}
-            {% for actor in actor_list %}
-                <p><a href="{% url "backstage:actor-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ actor.first_name }} {{ actor.last_name }}
+    <a href="{% url "backstage:play-list" %}" class="btn btn-primary link-to-page"><h1>Plays</h1></a>
+        {% if play_list %}
+            {% for play in play_list %}
+              {% if play.on_stage %}
+                Current plays: <p><a href="{% url "backstage:play-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
     </a></p>
+              {% endif %}
+              {% if not play.on_stage %}
+                Our history: <p><a href="{% url "backstage:play-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
+    </a></p>
+              {% endif %}
             {% endfor %}
             {% else %}
             <p>There are no actors in the theatre</p>

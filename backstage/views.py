@@ -40,9 +40,12 @@ class ActorDetailView(generic.DetailView):
 
 class DirectorListView(generic.ListView):
     model = Director
-    queryset = (
-        Director.objects.prefetch_related("awards")
-    )
+
+
+class DirectorDetailView(generic.DetailView):
+    model = Director
+    queryset = Actor.objects.prefetch_related("awards")
+        # prefetch_related("play__actors")
 
 
 class GenreListView(generic.ListView):
@@ -54,3 +57,8 @@ class PlayListView(generic.ListView):
     queryset = (
         Play.objects.prefetch_related("awards")
     ).prefetch_related("actors").prefetch_related("directors")
+
+
+class PlayDetailView(generic.DetailView):
+    model = Director
+    queryset = Actor.objects.prefetch_related("awards").prefetch_related("plays")

@@ -3,8 +3,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>
-    {{ actor.username }}
+  <h1> Director:
 {#    <a href="{% url 'theatre:actor-delete' pk=driver.id %}" class="btn btn-danger link-to-page">#}
 {#      Delete#}
 {#    </a>#}
@@ -14,27 +13,27 @@
 {#    </a>#}
   </h1>
 
-  <p><strong>{{ actor.first_name }} {{ actor.last_name }} </strong> </p>
-    <p><strong> Since {{ actor.year_of_joining }}</strong> </p>
-  <p><strong>Average fee:</strong> {{ actor.average_fee }}</p>
+  <p><strong>{{ director.first_name }} {{ director.last_name }} </strong> </p>
   <p><strong>Is staff:</strong> {{ actor.is_staff }}</p>
-      {% if actor.awards %}
+      {% if director.awards %}
     <ul>
-      {% for award in actor.awards.all %}
+      {% for award in director.awards.all %}
         <li>
           {{ award.name }} ({{ award.nomination }}, {{ award.year }})
         </li>
       {% endfor %}
   {% endif %}
-      {% if actor.plays.all != 0 %}
+      {% if director.plays.all != 0 %}
     <ul>
-      {% for play in actor.plays.all %}
+      {% for play in director.plays.all %}
         <li>
-          Current plays: {{ award.name }} ({{ award.nomination }}, {{ award.year }})
+          Current plays: {{ play.name }}, ({{ play.genre }}, premiere: {{ play.day_of_premiere }})
         </li>
       {% endfor %}
+      {% else %}
+          No current plays
+      {% endif %}
     </ul>
-  {% endif %}
 
 
 {% endblock %}

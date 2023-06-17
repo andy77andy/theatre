@@ -51,13 +51,13 @@ class Director(models.Model):
 
 class Play(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    troupe = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="actors")
+    troupe = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="plays")
     on_stage = models.BooleanField()
     day_of_premiere = models.DateTimeField(auto_now=True)
     description = models.TextField(default="Best ever play")
-    director = models.ForeignKey(Director, on_delete=models.DO_NOTHING, related_name="actors")
+    director = models.ForeignKey(Director, on_delete=models.DO_NOTHING, related_name="plays")
     awards = models.ManyToManyField(Award, related_name="awards", blank=True)
-    genre = models.ForeignKey(Genre, on_delete=models.DO_NOTHING, related_name="actors", blank=True, null=True)
+    genre = models.ForeignKey(Genre, on_delete=models.DO_NOTHING, related_name="plays", blank=True, null=True)
 
     class Meta:
         ordering = ["day_of_premiere"]

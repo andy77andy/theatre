@@ -14,27 +14,29 @@
 {#    </a>#}
   </h1>
 
-  <p><strong>{{ actor.first_name }} {{ actor.last_name }} </strong> </p>
+    <p><strong>{{ actor.first_name }} {{ actor.last_name }} </strong> </p>
     <p><strong> Since {{ actor.year_of_joining }}</strong> </p>
-  <p><strong>Average fee:</strong> {{ actor.average_fee }}</p>
-  <p><strong>Is staff:</strong> {{ actor.is_staff }}</p>
+    <p><strong>Average fee:</strong> {{ actor.average_fee }}</p>
+    <p><strong>Is staff:</strong> {{ actor.is_staff }}</p>
       {% if actor.awards %}
+        Awards:
     <ul>
       {% for award in actor.awards.all %}
         <li>
           {{ award.name }} ({{ award.nomination }}, {{ award.year }})
         </li>
       {% endfor %}
-  {% endif %}
+      {% endif %}
       {% if actor.plays.all != 0 %}
-    <ul>
+    </ul>
+        <ul>
       {% for play in actor.plays.all %}
-        <li>
-          Current plays: {{ award.name }} ({{ award.nomination }}, {{ award.year }})
-        </li>
+
+          Plays:
+          <li>{{ award.name }} ({{ award.nomination }}, {{ award.year }})
+          </li>
       {% endfor %}
     </ul>
-  {% endif %}
-
+      {% endif %}
 
 {% endblock %}
