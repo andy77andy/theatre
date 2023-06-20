@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 {% extends "base.html" %}
-{#{% load crispy_forms_filters %}#}
+{% load crispy_forms_filters %}
 
 {% block content %}
-    <a href="{% url "backstage:genre-list" %}" class="btn btn-primary link-to-page"><h1>Our Directors</h1></a>
+  <br>
+  <a style="float: right" href="{% url 'backstage:genre-create' %}" class="btn btn-primary link-to-page">
+        Create
+      </a>
+    <a href="{% url "backstage:genre-list" %}" class="btn btn-primary link-to-page"><h1>Genres</h1></a>
         {% if genre_list %}
             {% for genre in genre_list %}
-{#                <p><a href="{% url "backstage:director-detail" pk=director.id  %}" class="btn btn-secondary link-to-page">{{ director.first_name }} {{ director.last_name }}#}
-{#    </a></p>#}
-              <h3>{{ genre.name }}:</h3>
-                {% if genre.plays.all != 0 %}
-                {% for play in genre.plays.all %}
-                <p>{{ play.name }}</p>
-                {% endfor %}
+              <hr>
+                  <h3>{{ genre.name }}</h3>
+                  {% if genre.plays.all != 0 %}
+                    {% for play in genre.plays.all %}
+                    <p><a href="{% url "backstage:play-detail" pk=play.id %}" class="btn btn-primary link-to-page">{{ play.name }}</a></p>
+                  {% endfor %}
                 {% endif %}
             {% endfor %}
             {% else %}

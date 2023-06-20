@@ -36,7 +36,7 @@ class AwardAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Award)
+@admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
     pass
 
@@ -46,7 +46,7 @@ class DirectorAdmin(admin.ModelAdmin):
     search_fields = ("last_name",)
 
 
-@admin.register(Genre)
+@admin.register(Play)
 class PlayAdmin(admin.ModelAdmin):
     list_filter = ("genre",)
     search_fields = ("name",)

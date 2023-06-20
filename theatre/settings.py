@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backstage'
+    'crispy_forms',
+    "crispy_bootstrap4",
+    'backstage',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 AUTH_USER_MODEL = "backstage.Actor"
+
+LOGIN_REDIRECT_URL = "/"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 
 # Internationalization

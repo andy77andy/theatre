@@ -6,17 +6,16 @@
 
 
 {% block content %}
-  <a style="float: right" href="{% url 'backstage:director-create' %}" class="btn btn-primary link-to-page">
+  <a style="float: right" href="{% url 'backstage:award-create' %}" class="btn btn-primary link-to-page">
         Create
       </a>
-    <a href="{% url "backstage:director-list" %}" class="btn btn-primary link-to-page"><h1>Our Directors</h1></a>
-        {% if director_list %}
-            {% for director in director_list %}
-                <p><a href="{% url "backstage:director-detail" pk=director.id  %}" class="btn btn-secondary link-to-page">{{ director.first_name }} {{ director.last_name }}
-    </a></p>
+    <a href="{% url "backstage:award-list" %}" class="btn btn-primary link-to-page"><h1>Awards</h1></a>
+        {% if award_list %}
+            {% for award in award_list %}
+                <p>{{ award.name }}, est. {{ award.year }}</p>
             {% endfor %}
             {% else %}
-            <p>There are no directors in the theatre</p>
+            <p>There are no awards yet</p>
         {% endif %}
 
 

@@ -1,7 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 
+from backstage.forms import ActorCreationForm
 from backstage.models import Award, Actor, Director, Play, Genre
 
 
@@ -25,40 +28,83 @@ def index(request):
     return render(request, "backstage/index.html", context=context)
 
 
-class ActorListView(generic.ListView):
+def history(request):
+
+    prev_plays = Play.objects.all().filter(on_stage=False)
+
+    context = {
+        "prev_plays": prev_plays,
+    }
+
+    return render(request, "backstage/index.html", context=context)
+
+
+class ActorListView(LoginRequiredMixin, generic.ListView):
     model = Actor
     queryset = (
         Actor.objects.prefetch_related("awards")
     )
 
 
-class ActorDetailView(generic.DetailView):
+class ActorCreateView(LoginRequiredMixin, generic.CreateView):
     model = Actor
-    queryset = Actor.objects.prefetch_related("awards")
-        # prefetch_related("play__actors")
+    form_class = ActorCreationForm
+    success_url = reverse_lazy("backstage:actor-list")
 
 
-class DirectorListView(generic.ListView):
+class ActorDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Actor
+    queryset = Actor.objects.prefetch_related("awards").prefetch_related("plays")
+
+
+class DirectorListView(LoginRequiredMixin, generic.ListView):
     model = Director
 
 
-class DirectorDetailView(generic.DetailView):
+class DirectorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Director
-    queryset = Actor.objects.prefetch_related("awards")
-        # prefetch_related("play__actors")
+    queryset = Actor.objects.prefetch_related("awards").prefetch_related("plays")
 
 
-class GenreListView(generic.ListView):
+class DirectorCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Director
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:director-list")
+
+
+class GenreListView(LoginRequiredMixin, generic.ListView):
     model = Genre
 
 
-class PlayListView(generic.ListView):
+class GenreCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Genre
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:genre-list")
+
+
+class PlayListView(LoginRequiredMixin, generic.ListView):
     model = Director
     queryset = (
         Play.objects.prefetch_related("awards")
     ).prefetch_related("actors").prefetch_related("directors")
 
 
-class PlayDetailView(generic.DetailView):
-    model = Director
+class PlayDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Play
     queryset = Actor.objects.prefetch_related("awards").prefetch_related("plays")
+
+
+class PlayCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Award
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:plays-list")
+
+
+class AwardListView(LoginRequiredMixin, generic.ListView):
+    model = Award
+
+
+class AwardCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Award
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:plays-list")
