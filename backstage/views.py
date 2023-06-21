@@ -57,6 +57,17 @@ class ActorDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Actor.objects.prefetch_related("awards").prefetch_related("plays")
 
 
+class ActorUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Director
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:actor-list")
+
+
+class ActorDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Actor
+    success_url = reverse_lazy("backstage:actor-list")
+
+
 class DirectorListView(LoginRequiredMixin, generic.ListView):
     model = Director
 
@@ -72,6 +83,17 @@ class DirectorCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("backstage:director-list")
 
 
+class DirectorUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Director
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:director-list")
+
+
+class DirectorDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Director
+    success_url = reverse_lazy("backstage:director-list")
+
+
 class GenreListView(LoginRequiredMixin, generic.ListView):
     model = Genre
 
@@ -79,6 +101,17 @@ class GenreListView(LoginRequiredMixin, generic.ListView):
 class GenreCreateView(LoginRequiredMixin, generic.CreateView):
     model = Genre
     fields = "__all__"
+    success_url = reverse_lazy("backstage:genre-list")
+
+
+class GenreUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Director
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:genre-list")
+
+
+class GenreDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Genre
     success_url = reverse_lazy("backstage:genre-list")
 
 
@@ -100,6 +133,22 @@ class PlayCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("backstage:plays-list")
 
 
+class PlayUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Play
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:play-list")
+
+
+class PlayDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Play
+    success_url = reverse_lazy("backstage:play-list")
+
+
+class PlayDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Play
+    success_url = reverse_lazy("backstage:play-list")
+
+
 class AwardListView(LoginRequiredMixin, generic.ListView):
     model = Award
 
@@ -108,3 +157,19 @@ class AwardCreateView(LoginRequiredMixin, generic.CreateView):
     model = Award
     fields = "__all__"
     success_url = reverse_lazy("backstage:plays-list")
+
+
+class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Award
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:award-list")
+
+
+class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Award
+    success_url = reverse_lazy("backstage:award-list")
+
+
+class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Award
+    success_url = reverse_lazy("backstage:award-list")
