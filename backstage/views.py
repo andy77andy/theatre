@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from backstage.forms import ActorCreationForm
+from backstage.forms import ActorCreationForm, ActorValidateUpdateDataForm
 from backstage.models import Award, Actor, Director, Play, Genre
 
 
@@ -58,14 +58,15 @@ class ActorDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class ActorUpdateView(LoginRequiredMixin, generic.UpdateView):
-    model = Director
-    fields = "__all__"
+    model = Actor
+    form_class = ActorValidateUpdateDataForm
     success_url = reverse_lazy("backstage:actor-list")
 
 
 class ActorDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Actor
     success_url = reverse_lazy("backstage:actor-list")
+    template_name = "backstage/actor_confirm_delete.html"
 
 
 class DirectorListView(LoginRequiredMixin, generic.ListView):
@@ -92,6 +93,7 @@ class DirectorUpdateView(LoginRequiredMixin, generic.UpdateView):
 class DirectorDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Director
     success_url = reverse_lazy("backstage:director-list")
+    template_name = "backstage/director_confirm_delete.html"
 
 
 class GenreListView(LoginRequiredMixin, generic.ListView):
@@ -113,6 +115,7 @@ class GenreUpdateView(LoginRequiredMixin, generic.UpdateView):
 class GenreDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Genre
     success_url = reverse_lazy("backstage:genre-list")
+    template_name = "backstage/genre_confirm_delete.html"
 
 
 class PlayListView(LoginRequiredMixin, generic.ListView):
@@ -142,11 +145,7 @@ class PlayUpdateView(LoginRequiredMixin, generic.UpdateView):
 class PlayDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Play
     success_url = reverse_lazy("backstage:play-list")
-
-
-class PlayDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = Play
-    success_url = reverse_lazy("backstage:play-list")
+    template_name = "backstage/play_confirm_delete.html"
 
 
 class AwardListView(LoginRequiredMixin, generic.ListView):
@@ -168,8 +167,4 @@ class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
 class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Award
     success_url = reverse_lazy("backstage:award-list")
-
-
-class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = Award
-    success_url = reverse_lazy("backstage:award-list")
+    template_name = "backstage/award_confirm_delete.html"

@@ -9,6 +9,27 @@
       </a>
     <a href="{% url "backstage:actor-list" %}" class="btn btn-primary link-to-page"><h1>Our Actors</h1></a>
         {% if actor_list %}
+              <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Updater</th>
+        <th>Delete</th>
+      </tr>
+    {% for actor in actor_list %}
+      <tr>
+        <td>{{ actor.id }}</td>
+        <td>{{ actor.username }} </td>
+        <td>{{ actor.first_name }}</td>
+        <td>{{ actor.last_name }}</td>
+        <td><a href="{% url "backstage:actor-update" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>
+        <td><a href="{% url "backstage:actor-delete" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>
+      </tr>
+    {% endfor %}
+
+    </table>
             {% for actor in actor_list %}
                 <p><a href="{% url "backstage:actor-detail" pk=actor.id  %}" class="btn  link-to-page">{{ actor.first_name }} {{ actor.last_name }}
     </a></p>
