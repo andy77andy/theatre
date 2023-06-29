@@ -26,7 +26,8 @@ urlpatterns = [
     path("genres/<int:pk>/update/", GenreUpdateView.as_view(), name="genre-update"),
     path("genres/<int:pk>/delete/", GenreDeleteView.as_view(), name="genre-delete"),
     path("plays/", PlayListView.as_view(), name="play-list"),
-    path("plays/history/", history, name="play-history"),
+    path("plays/upcoming/", PlayListView.as_view(), name="play-upcoming"),
+    path("plays/archive/", PlayListView.as_view(), name="play-archive"),
     path(
         "plays/<int:pk>/", PlayDetailView.as_view(), name="play-detail"
     ),

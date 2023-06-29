@@ -1,10 +1,14 @@
+from datetime import date
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import QuerySet
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from backstage.forms import ActorCreationForm, ActorValidateUpdateDataForm
+from backstage.forms import ActorCreationForm, ActorValidateUpdateDataForm, PlayForm, PlaySearchForm, ActorSearchForm
+# CombinedPlayForm
 from backstage.models import Award, Actor, Director, Play, Genre
 
 
@@ -30,7 +34,7 @@ def index(request):
 
 def history(request):
 
-    prev_plays = Play.objects.all().filter(on_stage=False)
+    prev_plays = Play.objects.filter(on_stage=False)
 
     context = {
         "prev_plays": prev_plays,
@@ -44,6 +48,28 @@ class ActorListView(LoginRequiredMixin, generic.ListView):
     queryset = (
         Actor.objects.prefetch_related("awards")
     )
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ActorListView, self).get_context_data(**kwargs)
+        context["search"] = ActorSearchForm()
+
+        last_name = self.request.GET.get("last_name", "")
+
+        context["search"] = ActorSearchForm(
+            initial={"last_name": last_name}
+        )
+
+        return context
+
+    def get_queryset(self) -> QuerySet:
+        queryset = (
+            Actor.objects.prefetch_related("awards")
+        )
+        form = ActorSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return queryset.filter(last_name__icontains=form.cleaned_data["last_name"])
+        return queryset
 
 
 class ActorCreateView(LoginRequiredMixin, generic.CreateView):
@@ -119,10 +145,49 @@ class GenreDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 
 class PlayListView(LoginRequiredMixin, generic.ListView):
-    model = Director
-    queryset = (
-        Play.objects.prefetch_related("awards")
-    ).prefetch_related("actors").prefetch_related("directors")
+    model = Play
+    form_class = PlaySearchForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PlayListView, self).get_context_data(**kwargs)
+        context["search"] = PlaySearchForm()
+
+        name = self.request.GET.get("name", "")
+
+        context["search"] = PlaySearchForm(
+            initial={"name": name}
+        )
+
+        return context
+
+    def get_queryset(self):
+        today = date.today()
+
+        queryset = Play.objects.prefetch_related("awards").prefetch_related("actors").prefetch_related("directors")
+        form = PlaySearchForm(self.request.GET)
+
+        if form.is_valid():
+            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
+
+        play_list = queryset.filter(on_stage=True)
+        archive_plays = queryset.filter(on_stage=False, day_of_premiere__lt=today)
+        upcoming_plays = queryset.filter(on_stage=False, day_of_premiere__gt=today)
+
+        return {
+            'play-list': play_list,
+            "archive_plays": archive_plays,
+            'upcoming_plays': upcoming_plays
+        }
+
+    def get_template_names(self):
+        if 'play-list' in self.object_list:
+            return ['backstage/play-list.html']
+        elif "archive_plays" in self.object_list:
+            return ['backstage/play_archive.html']
+        elif 'upcoming-plays' in self.object_list:
+            return ['backstage/upcoming_play_list.html']
+        else:
+            return super().get_template_names()
 
 
 class PlayDetailView(LoginRequiredMixin, generic.DetailView):
@@ -131,14 +196,14 @@ class PlayDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class PlayCreateView(LoginRequiredMixin, generic.CreateView):
-    model = Award
-    fields = "__all__"
-    success_url = reverse_lazy("backstage:plays-list")
+    model = Play
+    form_class = PlayForm
+    success_url = reverse_lazy("backstage:play-list")
 
 
 class PlayUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Play
-    fields = "__all__"
+    form_class  = PlayForm
     success_url = reverse_lazy("backstage:play-list")
 
 

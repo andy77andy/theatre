@@ -4,18 +4,21 @@
 {{ form|crispy }}
 
 {% block content %}
-    <a href="{% url "backstage:history" %}" class="btn btn-primary link-to-page"><h1>Plays history</h1></a>
-        {% if prev_plays %}
-            {% for play in prev_plays %}
+    <a href="{% url "backstage:play-archive" %}" class="btn btn-primary link-to-page"><h1>Archive plays</h1></a>
+      <br>
+  <form action="" method="get" class="form-inline">
+    {{ search|crispy }}
+    <input class="btn btn-secondary" type="submit" value="!">
+  </form>
+        {% if archive_plays %}
+            {% for play in archive_stage_plays %}
               plays: <p><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
     </a></p>
-{#              {% if not play.on_stage %}#}
-{#                Our history: <p><a href="{% url "backstage:play-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}#}
-{#    </a></p>#}
+
 
             {% endfor %}
             {% else %}
-            <p>There are no plays in our history so far</p>
+            <p>There are no plays in our history yet</p>
         {% endif %}
 
 

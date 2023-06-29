@@ -4,10 +4,17 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
+
+
     <a style="float: right" href="{% url 'backstage:actor-create' %}" class="btn btn-primary link-to-page">
         Create
       </a>
     <a href="{% url "backstage:actor-list" %}" class="btn btn-primary link-to-page"><h1>Our Actors</h1></a>
+  <form action="" method="get" >
+  {{ search|crispy }}
+    <br>
+    <input type="submit" >
+  </form>
         {% if actor_list %}
               <table class="table">
       <tr>

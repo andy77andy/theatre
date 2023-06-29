@@ -5,8 +5,8 @@
 
 {% block content %}
     <a href="{% url "backstage:play-archive" %}" class="btn btn-primary link-to-page"><h1>Plays history</h1></a>
-        {% if archive_stage_plays %}
-            {% for play in archive_stage_plays %}
+        {% if upcoming_plays %}
+            {% for play in upcoming_plays %}
               plays: <p><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
     </a></p>
 {#              {% if not play.on_stage %}#}
@@ -15,7 +15,7 @@
 
             {% endfor %}
             {% else %}
-            <p>There are no plays in our history so far</p>
+            <p>There are no upcoming_plays yet</p>
         {% endif %}
 
 

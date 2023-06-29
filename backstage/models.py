@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.urls import reverse
-
+# from django.urls import reverse
+#
+# from backstage.forms import max_value_current_year
 from theatre import settings
 
 
@@ -36,9 +37,6 @@ class Actor(AbstractUser):
         ordering = ["last_name"]
         verbose_name_plural = "actors"
 
-    # def get_absolute_url(self):
-    #     return reverse("taxi:driver-detail", kwargs={"pk": self.pk})
-
 
 class Director(models.Model):
     first_name = models.CharField(max_length=255)
@@ -53,7 +51,7 @@ class Play(models.Model):
     name = models.CharField(max_length=255, unique=True)
     troupe = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="plays")
     on_stage = models.BooleanField()
-    day_of_premiere = models.DateTimeField(auto_now=True)
+    day_of_premiere = models.DateField(blank=True, null=True)
     description = models.TextField(default="Best ever play")
     director = models.ForeignKey(Director, on_delete=models.DO_NOTHING, related_name="plays")
     awards = models.ManyToManyField(Award, related_name="awards", blank=True)
