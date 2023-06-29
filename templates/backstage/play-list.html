@@ -2,18 +2,23 @@
 <html lang="en">
 
 {% load crispy_forms_filters %}
-{{ form|crispy }}
+{#{{ form|crispy }}#}
 
 {% block content %}
+    <a style="float: right" href="{% url 'backstage:play-create' %}" class="btn btn-primary link-to-page">
+        Create
+      </a>
     <a href="{% url "backstage:play-list" %}" class="btn btn-primary link-to-page"><h1>Plays</h1></a>
+  <br>
+  <form action="" method="get" class="form-inline">
+    {{ search|crispy }}
+    <input class="btn btn-secondary" type="submit" value="!">
+  </form>
         {% if play_list %}
             {% for play in play_list %}
               {% if play.on_stage %}
                 Current plays: <p><a href="{% url "backstage:play-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
     </a></p>
-{#              {% if not play.on_stage %}#}
-{#                Our history: <p><a href="{% url "backstage:play-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}#}
-{#    </a></p>#}
               {% endif %}
             {% endfor %}
             {% else %}
