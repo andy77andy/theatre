@@ -6,6 +6,7 @@
 {% block content %}
     <a style="float: right" href="{% url 'backstage:play-create' %}" class="btn btn-primary link-to-page">
         Create
+
       </a>
     <a href="{% url "backstage:play-list" %}" class="btn btn-primary link-to-page"><h1>Plays</h1></a>
   <br>
@@ -13,15 +14,15 @@
     {{ search|crispy }}
     <input class="btn btn-secondary" type="submit" value="!">
   </form>
+    <h2>Current plays:</h2>
         {% if play_list %}
             {% for play in play_list %}
-              {% if play.on_stage %}
-                Current plays: <p><a href="{% url "backstage:play-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
+              <p><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
     </a></p>
-              {% endif %}
+
             {% endfor %}
             {% else %}
-            <p>There are no actors in the theatre</p>
+            <p>There are no current plays in the theatre now</p>
         {% endif %}
 
 

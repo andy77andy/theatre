@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+<br>
+{% block content %}
+      <a style="float: right" href="{% url "backstage:play-update" pk=play.id %}" class="btn btn-primary link-to-page">
+        Update</a>
+  <h1>
+    {{ play.name }}, {{ play.genre}}
+
+  </h1>
+    <p><strong>Director: {{ play.director.first_name }}, {{ play.director.last_name }} </strong></p>
+    <p><strong>Troupe: {{ play.troupe }} </strong></p>
+
+    <p><strong> Since {{ play.day_of_premiere }}</strong> </p>
+    <p><strong>Brief: </strong> {{ play.description }}</p>
+      {% if play.awards %}
+        Awards:
+      {% for award in play.awards.all %}
+        <li>
+          {{ award.name }} ({{ award.nomination }}, {{ award.year }})
+        </li>
+      {% endfor %}
+      {% endif %}
+
+
+{% endblock %}

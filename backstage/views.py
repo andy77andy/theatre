@@ -148,6 +148,17 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
     model = Play
     form_class = PlaySearchForm
 
+
+    def get_queryset(self):
+
+        queryset = Play.objects.prefetch_related("awards")
+        form = PlaySearchForm(self.request.GET)
+
+        if form.is_valid():
+            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
+
+        return queryset
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PlayListView, self).get_context_data(**kwargs)
         context["search"] = PlaySearchForm()
@@ -158,41 +169,36 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
             initial={"name": name}
         )
 
-        return context
-
-    def get_queryset(self):
         today = date.today()
-
-        queryset = Play.objects.prefetch_related("awards").prefetch_related("actors").prefetch_related("directors")
-        form = PlaySearchForm(self.request.GET)
-
-        if form.is_valid():
-            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
+        queryset = self.get_queryset()
 
         play_list = queryset.filter(on_stage=True)
         archive_plays = queryset.filter(on_stage=False, day_of_premiere__lt=today)
         upcoming_plays = queryset.filter(on_stage=False, day_of_premiere__gt=today)
 
-        return {
-            'play-list': play_list,
+        context.update({
+            "play-list": play_list,
             "archive_plays": archive_plays,
-            'upcoming_plays': upcoming_plays
-        }
+            "upcoming_plays": upcoming_plays
+        })
+
+        return context
 
     def get_template_names(self):
         if 'play-list' in self.object_list:
-            return ['backstage/play-list.html']
-        elif "archive_plays" in self.object_list:
+            return ['backstage/play_list.html']
+        elif "archive" in self.object_list:
             return ['backstage/play_archive.html']
-        elif 'upcoming-plays' in self.object_list:
-            return ['backstage/upcoming_play_list.html']
+        elif 'upcoming' in self.object_list:
+            return ['backstage/upcoming_plays.html']
         else:
             return super().get_template_names()
 
 
+
 class PlayDetailView(LoginRequiredMixin, generic.DetailView):
     model = Play
-    queryset = Actor.objects.prefetch_related("awards").prefetch_related("plays")
+    queryset = Play.objects.prefetch_related("awards")
 
 
 class PlayCreateView(LoginRequiredMixin, generic.CreateView):

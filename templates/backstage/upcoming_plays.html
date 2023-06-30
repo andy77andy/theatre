@@ -4,14 +4,11 @@
 {{ form|crispy }}
 
 {% block content %}
-    <a href="{% url "backstage:play-archive" %}" class="btn btn-primary link-to-page"><h1>Plays history</h1></a>
+    <a href="{% url "backstage:play-upcoming" %}" class="btn btn-primary link-to-page"><h1>Plays history</h1></a>
         {% if upcoming_plays %}
             {% for play in upcoming_plays %}
               plays: <p><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
     </a></p>
-{#              {% if not play.on_stage %}#}
-{#                Our history: <p><a href="{% url "backstage:play-detail" pk=actor.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}#}
-{#    </a></p>#}
 
             {% endfor %}
             {% else %}

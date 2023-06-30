@@ -11,7 +11,7 @@
     <input class="btn btn-secondary" type="submit" value="!">
   </form>
         {% if archive_plays %}
-            {% for play in archive_stage_plays %}
+            {% for play in archive_plays %}
               plays: <p><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
     </a></p>
 
