@@ -1,8 +1,8 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# from django.urls import reverse
-#
-# from backstage.forms import max_value_current_year
+
 from theatre import settings
 
 
@@ -14,9 +14,10 @@ class Genre(models.Model):
 
 
 class Award(models.Model):
-    name = models.CharField(max_length=255)
-    nomination = models.CharField(max_length=255, null=True, blank=True)
-    year = models.IntegerField()
+    name = models.CharField(max_length=50)
+    nomination = models.CharField(max_length=50)
+    year = models.PositiveIntegerField()
+
 
     def __str__(self):
         return f"{self.name} ({self.nomination}, {self.year})"

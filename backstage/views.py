@@ -1,14 +1,13 @@
+import datetime
 from datetime import date
-
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from backstage.forms import ActorCreationForm, ActorValidateUpdateDataForm, PlayForm, PlaySearchForm, ActorSearchForm
-# CombinedPlayForm
+from backstage.forms import ActorCreationForm, ActorValidateUpdateDataForm, PlayForm, PlaySearchForm, ActorSearchForm, \
+    AwardForm
 from backstage.models import Award, Actor, Director, Play, Genre
 
 
@@ -184,12 +183,12 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
 
         return context
 
-    def get_template_names(self):
-        if 'play-list' in self.object_list:
+    def get_template_names(self) -> list[str]:
+        if 'play-list' in self.request.path:
             return ['backstage/play_list.html']
-        elif "archive" in self.object_list:
+        elif "archive" in self.request.path:
             return ['backstage/play_archive.html']
-        elif 'upcoming' in self.object_list:
+        elif 'upcoming' in self.request.path:
             return ['backstage/upcoming_plays.html']
         else:
             return super().get_template_names()
@@ -222,16 +221,42 @@ class PlayDeleteView(LoginRequiredMixin, generic.DeleteView):
 class AwardListView(LoginRequiredMixin, generic.ListView):
     model = Award
 
+    @staticmethod
+    def current_year():
+        return datetime.date.today().year
+
 
 class AwardCreateView(LoginRequiredMixin, generic.CreateView):
     model = Award
-    fields = "__all__"
-    success_url = reverse_lazy("backstage:plays-list")
+    form_class = AwardForm
+    template_name = "backstage/award_form.html"
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["actor_id"] = self.kwargs["pk"]
+        return context
+
+
+    def add_award(self, request, *args, **kwargs):
+        form = AwardForm(request.POST)
+        pk = self.kwargs.get("actor_id")
+        if form.is_valid():
+            award = form.save()
+            # Award.objects.create(**kwargs)
+            actor = Actor.objects.get(actor_id=pk)
+            actor.awards.add(award)
+            return redirect('backstage:actor_detail', actor_id=pk)
+        else:
+            return redirect('backstage:award_create', actor_id=pk)
+
+    def get_success_url(self):
+        return reverse_lazy('backstage:actor_detail', self.kwargs.get("pk"))
 
 
 class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Award
-    fields = "__all__"
+    form_class = AwardForm
     success_url = reverse_lazy("backstage:award-list")
 
 
@@ -239,3 +264,6 @@ class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Award
     success_url = reverse_lazy("backstage:award-list")
     template_name = "backstage/award_confirm_delete.html"
+
+
+

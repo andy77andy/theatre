@@ -27,8 +27,10 @@
         </li>
       {% endfor %}
       {% endif %}
-      {% if actor.plays.all != 0 %}
     </ul>
+    <a href="{% url "backstage:award_create" pk=actor.id %}"  class="btn btn-primary link-to-page"><h1>Add/Update award</h1></a>
+      {% if actor.plays.all != 0 %}
+
         <ul>
       {% for play in actor.plays.all %}
 

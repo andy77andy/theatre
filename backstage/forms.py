@@ -3,13 +3,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.core.exceptions import ValidationError
-from django.core.exceptions import ValidationError
 from django.forms import ModelMultipleChoiceField
-import datetime
-from django.core.validators import MaxValueValidator, MinValueValidator
-from backstage.models import Actor, Play
 
-
+from backstage.models import Actor, Play, Award
 
 
 def validate_fee(
@@ -48,14 +44,6 @@ class ActorCreationForm(UserCreationForm):
 
     def clean_year_of_joining(self):
         return validate_year_of_joining(self.cleaned_data["year_of_joining"], first_year=self.FIRST_YEAR)
-
-    # def validate_fee(self, average_fee: int
-    # ):  # regex validation is also possible here
-    #
-    #     if not (self.MIN_FEE <= average_fee <= self.MAX_FEE):
-    #         self.add_error("average_fee", f"Average_fee should exist in range {self.MIN_FEE} and {self.MAX_FEE}")
-    #     return average_fee
-    #
 
 
 class ActorValidateUpdateDataForm(forms.ModelForm):
@@ -114,21 +102,31 @@ class PlayPremiereForm(forms.ModelForm):
         }
 
 
-# class CombinedPlayForm(forms.ModelForm, PlayForm):
-#     pass
+class AwardForm(forms.ModelForm):
+    YEAR_CHOICES = [(year, str(year)) for year in range(1990, 2023)]  # Adjust the upper bound for recent year
 
+    NAME_CHOICES = [
+        ('best_play', 'Best Play'),
+        ('best_director', 'Best Director'),
+        ('best_actor_actress', 'Best Actor/Actress'),
+        ('best_supporting_actor_actress', 'Best Supporting Actor/Actress'),
+        ('best_decoration', 'Best Decoration')
+    ]
 
-# def current_year():
-#     return datetime.date.today().year
-#
-#
-# def max_value_current_year(value):
-#     return MaxValueValidator(current_year())(value)
-#
-#
-# def year_choices():
-#     return [(r, r) for r in range(1984, datetime.date.today().year+1)]
-#
-#
-# class AwardForm(forms.ModelForm):
-#     year = forms.TypedChoiceField(coerce=int, choices=year_choices, initial=current_year)
+    NOMINATION_CHOICES = [
+        ('best_play', 'Best Play'),
+        ('best_director', 'Best Director'),
+        ('best_actor_actress', 'Best Actor/Actress'),
+        ('best_supporting_actor_actress', 'Best Supporting Actor/Actress'),
+        ('best_decoration', 'Best Decoration')
+    ]
+
+    class Meta:
+        model = Award
+        fields = '__all__'
+        widgets = {}
+
+    Meta.widgets = {'name': forms.Select(choices=NAME_CHOICES),
+            'nomination': forms.Select(choices=NOMINATION_CHOICES),
+            'year': forms.Select(choices=YEAR_CHOICES)}
+
