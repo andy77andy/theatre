@@ -15,20 +15,22 @@ class Genre(models.Model):
 
 class Award(models.Model):
     name = models.CharField(max_length=50)
-    nomination = models.CharField(max_length=50)
+    nomination = models.CharField(max_length=50, null=True)
     year = models.PositiveIntegerField()
+
 
 
     def __str__(self):
         return f"{self.name} ({self.nomination}, {self.year})"
 
     class Meta:
-        ordering = ["name"]
+
+        verbose_name_plural = "awards"
 
 
 class Actor(AbstractUser):
     average_fee = models.CharField(max_length=255)
-    awards = models.ManyToManyField(Award, related_name="actor_awards", null=True, blank=True)
+    awards = models.ForeignKey(Award, on_delete=models.DO_NOTHING, related_name="actor", null=True, blank=True)
     year_of_joining = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
@@ -42,7 +44,7 @@ class Actor(AbstractUser):
 class Director(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    awards = models.ManyToManyField(Award, related_name="director_awards", null=True, blank=True)
+    awards = models.ForeignKey(Award, on_delete=models.DO_NOTHING, related_name="director", null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

@@ -28,6 +28,25 @@
           No current plays
       {% endif %}
     </ul>
+                <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Updater</th>
+        <th>Delete</th>
+      </tr>
+    {% for actor in actor_list %}
+      <tr>
+        <td>{{ actor.id }}</td>
+        <td>{{ actor.username }} </td>
+        <td>{{ actor.first_name }}</td>
+        <td>{{ actor.last_name }}</td>
+        <td><a href="{% url "backstage:actor-update" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>
+        <td><a href="{% url "backstage:actor-delete" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>
+      </tr>
+    {% endfor %}
 
 
 {% endblock %}

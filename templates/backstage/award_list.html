@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <br>
+{#  <a style="float: right" href="{% url 'backstage:genre-create' %}" class="btn btn-primary link-to-page">#}
+{#        Create#}
+{#      </a>#}
+    <a href="{% url "backstage:award-list" %}" class="btn btn-primary link-to-page"><h1>Awards</h1></a>
+        {% if award_list %}
+            {% for award in award_list %}
+              <hr>
+                  <h3>{{ award.name }}, {{ award.nomination }}, {{ award.year}}, {{ award.actor }}</h3>
+{#                  {% if genre.plays.all != 0 %}#}
+{#                    {% for play in genre.plays.all %}#}
+{#                    <p><a href="{% url "backstage:play-detail" pk=play.id %}" class="btn btn-primary link-to-page">{{ play.name }}</a></p>#}
+{#                  {% endfor %}#}
+{#                {% endif %}#}
+            {% endfor %}
+            {% else %}
+            <p>There are no genres yet</p>
+        {% endif %}
+
+
+{% endblock %}

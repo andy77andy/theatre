@@ -106,6 +106,7 @@ class AwardForm(forms.ModelForm):
     YEAR_CHOICES = [(year, str(year)) for year in range(1990, 2023)]  # Adjust the upper bound for recent year
 
     NAME_CHOICES = [
+        ('', '--- Select Award ---'),
         ('best_play', 'Best Play'),
         ('best_director', 'Best Director'),
         ('best_actor_actress', 'Best Actor/Actress'),
@@ -130,3 +131,14 @@ class AwardForm(forms.ModelForm):
             'nomination': forms.Select(choices=NOMINATION_CHOICES),
             'year': forms.Select(choices=YEAR_CHOICES)}
 
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if not name:
+            raise forms.ValidationError('Please select a valid name.')
+        return name
+
+    def clean_nomination(self):
+        nomination = self.cleaned_data.get('nomination')
+        if not nomination:
+            raise forms.ValidationError('Please select a valid nomination.')
+        return nomination

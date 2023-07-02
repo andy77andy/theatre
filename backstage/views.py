@@ -231,27 +231,27 @@ class AwardCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = AwardForm
     template_name = "backstage/award_form.html"
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["actor_id"] = self.kwargs["pk"]
         return context
 
-
-    def add_award(self, request, *args, **kwargs):
+    @staticmethod
+    def add_award(request, *args, **kwargs):
         form = AwardForm(request.POST)
-        pk = self.kwargs.get("actor_id")
+        pk = kwargs.get("actor_id")
         if form.is_valid():
             award = form.save()
             # Award.objects.create(**kwargs)
-            actor = Actor.objects.get(actor_id=pk)
+            actor = Actor.objects.get(pk=pk)
             actor.awards.add(award)
-            return redirect('backstage:actor_detail', actor_id=pk)
+            actor.save()
+            return redirect('backstage:actor-detail', pk=pk)
         else:
-            return redirect('backstage:award_create', actor_id=pk)
+            return redirect('backstage:award_create', pk=pk)
 
     def get_success_url(self):
-        return reverse_lazy('backstage:actor_detail', self.kwargs.get("pk"))
+        return reverse_lazy('backstage:actor-detail', kwargs={"pk": self.kwargs.get("pk")})
 
 
 class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
