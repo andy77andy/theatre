@@ -3,7 +3,9 @@ from django.urls import path
 from backstage.views import index, ActorListView, ActorDetailView, DirectorListView, GenreListView, PlayListView, \
     DirectorDetailView, PlayDetailView, ActorCreateView, DirectorCreateView, GenreCreateView, PlayCreateView, \
     AwardCreateView, AwardListView, DirectorUpdateView, ActorUpdateView, GenreUpdateView, PlayUpdateView, \
-    AwardUpdateView, ActorDeleteView, DirectorDeleteView, GenreDeleteView, PlayDeleteView, AwardDeleteView
+    AwardUpdateView, ActorDeleteView, DirectorDeleteView, GenreDeleteView, PlayDeleteView, AwardDeleteView, \
+    DirectorAwardCreateView, PlayAwardCreateView
+
 urlpatterns = [
     path("", index, name="index"),
     path("actors/", ActorListView.as_view(), name="actor-list"),
@@ -37,7 +39,9 @@ urlpatterns = [
     path("plays/<int:pk>/delete/", PlayDeleteView.as_view(), name="play-delete"),
     path("awards/", AwardListView.as_view(), name="award-list"),
     path("awards/<int:pk>/update/", AwardUpdateView.as_view(), name="award-update"),
-    path('actors/<int:pk>/add_award', AwardCreateView.as_view(), name='award_create'),
+    path('actors/<int:pk>/add_award/', AwardCreateView.as_view(), name='award_create'),
+    path('directors/<int:pk>/add_award/', DirectorAwardCreateView.as_view(), name='director_award_create'),
+    path('plays/<int:pk>/add_award/', PlayAwardCreateView.as_view(), name='play_award_create'),
     path("awards/<int:pk>/delete/", AwardDeleteView.as_view(), name="award-delete"),
 ]
 

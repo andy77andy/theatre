@@ -7,7 +7,7 @@ from .models import Actor, Award, Director, Play, Genre
 class ActorAdmin(UserAdmin):
     list_display = UserAdmin.list_display + ("average_fee", )
     fieldsets = UserAdmin.fieldsets + (
-        (("Additional info", {"fields": ("average_fee", "awards", "year_of_joining",)}),)
+        (("Additional info", {"fields": ("average_fee", "year_of_joining",)}),)
     )
 
     add_fieldsets = UserAdmin.add_fieldsets + (
@@ -20,7 +20,7 @@ class ActorAdmin(UserAdmin):
                         "first_name",
                         "last_name",
                         "average_fee",
-                        "awards",
+                        # "awards",
                         "year_of_joining",
                     )
                 },

@@ -100,7 +100,7 @@ class DirectorListView(LoginRequiredMixin, generic.ListView):
 
 class DirectorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Director
-    queryset = Actor.objects.prefetch_related("awards").prefetch_related("plays")
+    queryset = Director.objects
 
 
 class DirectorCreateView(LoginRequiredMixin, generic.CreateView):
@@ -150,7 +150,7 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
 
-        queryset = Play.objects.prefetch_related("awards")
+        queryset = Play.objects
         form = PlaySearchForm(self.request.GET)
 
         if form.is_valid():
@@ -197,7 +197,6 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
 
 class PlayDetailView(LoginRequiredMixin, generic.DetailView):
     model = Play
-    queryset = Play.objects.prefetch_related("awards")
 
 
 class PlayCreateView(LoginRequiredMixin, generic.CreateView):
@@ -237,22 +236,83 @@ class AwardCreateView(LoginRequiredMixin, generic.CreateView):
         return context
 
     @staticmethod
-    def add_award(request, *args, **kwargs):
+    def post(request, *args, **kwargs):
         form = AwardForm(request.POST)
-        pk = kwargs.get("actor_id")
+        pk = kwargs.get("pk")
         if form.is_valid():
-            award = form.save()
-            # Award.objects.create(**kwargs)
-            actor = Actor.objects.get(pk=pk)
-            actor.awards.add(award)
-            actor.save()
+            award = form.save(commit=False)
+            award.actor_id = pk  # Assign the actor to the award
+            award.save()
             return redirect('backstage:actor-detail', pk=pk)
+            # if 'actors' in request.path:
+            #     award.object_id = pk  # Assign the actor to the award
+            #     award.save()
+            #     return redirect('backstage:actor-detail', pk=pk)
+            # if 'directors' in request.path:
+            #     award.director(id=pk)  # Assign the actor to the award
+            #     award.save()
+            #     return redirect('backstage:director-detail', pk=pk)
+            # if 'plays' in request.path:
+            #     award.object_id = pk  # Assign the actor to the award
+            #     award.save()
+            #     return redirect('backstage:play-detail', pk=pk)
         else:
             return redirect('backstage:award_create', pk=pk)
 
     def get_success_url(self):
         return reverse_lazy('backstage:actor-detail', kwargs={"pk": self.kwargs.get("pk")})
 
+
+class DirectorAwardCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Award
+    form_class = AwardForm
+    template_name = "backstage/award_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["director_id"] = self.kwargs["pk"]
+        return context
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+        form = AwardForm(request.POST)
+        pk = kwargs.get("pk")
+        if form.is_valid():
+            award = form.save(commit=False)
+            award.director_id = pk  # Assign the actor to the award
+            award.save()
+            return redirect('backstage:director-detail', pk=pk)
+        else:
+            return redirect('backstage:director_award_create', pk=pk)
+
+    def get_success_url(self):
+        return reverse_lazy('backstage:director-detail', kwargs={"pk": self.kwargs.get("pk")})
+
+
+class PlayAwardCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Award
+    form_class = AwardForm
+    template_name = "backstage/award_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["play_id"] = self.kwargs["pk"]
+        return context
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+        form = AwardForm(request.POST)
+        pk = kwargs.get("pk")
+        if form.is_valid():
+            award = form.save(commit=False)
+            award.play_id = pk  # Assign the actor to the award
+            award.save()
+            return redirect('backstage:play-detail', pk=pk)
+        else:
+            return redirect('backstage:play_award_create', pk=pk)
+
+    def get_success_url(self):
+        return reverse_lazy('backstage:play-detail', kwargs={"pk": self.kwargs.get("pk")})
 
 class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Award

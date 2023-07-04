@@ -33,7 +33,7 @@ class ActorCreationForm(UserCreationForm):
         model = Actor
         fields = UserCreationForm.Meta.fields + (
             "average_fee",
-            "awards",
+            # "awards",
             "year_of_joining",
             "first_name",
             "last_name",
@@ -124,12 +124,12 @@ class AwardForm(forms.ModelForm):
 
     class Meta:
         model = Award
-        fields = '__all__'
+        fields = 'name', 'nomination', 'year'
         widgets = {}
 
     Meta.widgets = {'name': forms.Select(choices=NAME_CHOICES),
-            'nomination': forms.Select(choices=NOMINATION_CHOICES),
-            'year': forms.Select(choices=YEAR_CHOICES)}
+                    'nomination': forms.Select(choices=NOMINATION_CHOICES),
+                    'year': forms.Select(choices=YEAR_CHOICES)}
 
     def clean_name(self):
         name = self.cleaned_data.get('name')

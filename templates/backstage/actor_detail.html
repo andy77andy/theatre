@@ -24,7 +24,7 @@
     <ul>
         {% for award in actor.awards.all %}
         <li>
-          {{ award.name }}, ({{ award.nomination }}, {{ award.actor }})
+          {{ award.name }}, ({{ award.nomination }}, {{ award.year }})
         </li>
         {% endfor %}
       {% endif %}

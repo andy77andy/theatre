@@ -9,16 +9,18 @@
 
   <p><strong>{{ director.first_name }} {{ director.last_name }} </strong> </p>
   <p><strong>Is staff:</strong> {{ actor.is_staff }}</p>
-      {% if director.awards %}
-    <ul>
-      {% for award in director.awards.all %}
+       {% if director.director_awards.all != 0 %}
+        Awards:
+      {% for award in director.director_awards.all %}
         <li>
           {{ award.name }} ({{ award.nomination }}, {{ award.year }})
         </li>
       {% endfor %}
-  {% endif %}
+      {% endif %}
+     <a style="float: bottom" href="{% url "backstage:director_award_create" pk=director.id %}"  class="btn btn-secondary link-to-page"><h5>Add award</h5></a>
       {% if director.plays.all != 0 %}
     <ul>
+     >
       {% for play in director.plays.all %}
         <li>
           Current plays: {{ play.name }}, ({{ play.genre }}, premiere: {{ play.day_of_premiere }})
