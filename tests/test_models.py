@@ -10,7 +10,7 @@ class ModelsTESTS(TestCase):
             first_name="test", last_name="Test")
         self.assertEqual(str(
             test_director),
-            f"{test_director.first_name}, "
+            f"{test_director.first_name} "
             f"{test_director.last_name}")
 
     def test_actor_str(self):
@@ -42,28 +42,17 @@ class ModelsTESTS(TestCase):
         # test_genre = Genre.objects.create(name="test",)
         test_genre = Genre.objects.create(name="test", )
 
-        self.assertEqual(str(test_genre, f"{test_genre.name}"))
+        self.assertEqual(str(test_genre), f"{test_genre.name}")
 
     def test_play_str(self):
         test_director = Director.objects.create(
             first_name="test", last_name="Test")
         test_genre = Genre.objects.create(name="test", )
-        test_actor = get_user_model().objects.create_user(
-            username="test",
-            password="test1234",
-            first_name="test",
-            last_name="test",
-            average_fee=100,
-            year_of_joining=1992,
-        )
-        test_play = Play.objects.create_user(
+
+        test_play = Play.objects.create(
             name="test",
-            troupe=test_actor,
-            first_name="test",
-            last_name="test",
-            average_fee=100,
-            year_of_joining=1992,
+            director=test_director,
+            genre=test_genre,
         )
 
-
-        self.assertEqual(str(test_play, f"{test_genre.name}"))
+        self.assertEqual(str(test_play), f"{test_play.name}, {test_play.genre}, director: {test_play.director}")
