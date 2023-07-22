@@ -33,7 +33,6 @@ class ActorCreationForm(UserCreationForm):
         model = Actor
         fields = UserCreationForm.Meta.fields + (
             "average_fee",
-            # "awards",
             "year_of_joining",
             "first_name",
             "last_name",
@@ -69,11 +68,11 @@ class PlayForm(forms.ModelForm):
     }
 
     class Meta:
-            model = Play
-            fields = "__all__"
-            widgets = {
-                'day_of_premiere': forms.DateInput(attrs={'type': 'date'})
-            }
+        model = Play
+        fields = "__all__"
+        widgets = {
+            'day_of_premiere': forms.DateInput(attrs={'type': 'date'})
+        }
 
 
 class PlaySearchForm(forms.Form):
@@ -93,6 +92,7 @@ class ActorSearchForm(forms.Form):
         widget=forms.TextInput(attrs={"placeholder": "Search by last name..."})
     )
 
+
 class PlayPremiereForm(forms.ModelForm):
     class Meta:
         model = Play
@@ -105,7 +105,7 @@ class PlayPremiereForm(forms.ModelForm):
 class AwardForm(forms.ModelForm):
     YEAR_CHOICES = [(year, str(year)) for year in range(1990, 2023)]  # Adjust the upper bound for recent year
 
-    NAME_CHOICES = [
+    NOMINATION_CHOICES = [
         ('', '--- Select Award ---'),
         ('best_play', 'Best Play'),
         ('best_director', 'Best Director'),
@@ -114,12 +114,13 @@ class AwardForm(forms.ModelForm):
         ('best_decoration', 'Best Decoration')
     ]
 
-    NOMINATION_CHOICES = [
-        ('best_play', 'Best Play'),
-        ('best_director', 'Best Director'),
-        ('best_actor_actress', 'Best Actor/Actress'),
-        ('best_supporting_actor_actress', 'Best Supporting Actor/Actress'),
-        ('best_decoration', 'Best Decoration')
+    NAME_CHOICES = [
+        ('', '--- Select Award ---'),
+        ('tony', 'Tony'),
+        ('pectoral', 'Pectoral'),
+        ('Ibsens', 'Ibsens'),
+        ('liga', 'Liga'),
+        ('Benefit', 'Benefit')
     ]
 
     class Meta:

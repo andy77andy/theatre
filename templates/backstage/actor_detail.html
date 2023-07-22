@@ -1,43 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends "base.html" %}
+{% extends 'includes/base.html' %}
 
 {% block content %}
-  <h1>
-    {{ actor.username }}
-{#    <a href="{% url 'theatre:actor-delete' pk=driver.id %}" class="btn btn-danger link-to-page">#}
-{#      Delete#}
-{#    </a>#}
-{##}
-{#    <a href="{% url 'theatre:actor-update' pk=actor.id %}" class="btn btn-secondary link-to-page">#}
-{#      Update actor's data#}
-{#    </a>#}
-  </h1>
+    <br>
+    <div  class="button-container float-right">
+        <p><a href="{% url 'backstage:actor-update' pk=actor.id %}" class="btn btn-success link-to-page">
+        Update</a></p>
+    <p><a  href="{% url 'backstage:actor-delete' pk=actor.id%}" class="btn btn-danger link-to-page">
+        Delete</a></p>
+</div>
+  <h3>{{ actor.username }}</h3>
 
-    <p><strong>{{ actor.first_name }} {{ actor.last_name }} </strong> </p>
-    <p><strong> Since {{ actor.year_of_joining }}</strong> </p>
+    <p><strong style="font-size: 20px">{{ actor.first_name }} {{ actor.last_name }} </strong> </p>
+    <p><strong> Since: {{ actor.year_of_joining }}</strong> </p>
     <p><strong>Average fee:</strong> {{ actor.average_fee }}</p>
     <p><strong>Is staff:</strong> {{ actor.is_staff }}</p>
 
       {% if actor.awards.all != 0 %}
-          <p>Awards:</p>
+          <h5>Awards:</h5>
     <ul>
         {% for award in actor.awards.all %}
         <li>
           {{ award.name }}, ({{ award.nomination }}, {{ award.year }})
-        </li>
+        </li></ul>
         {% endfor %}
       {% endif %}
-    </ul>
+    <a style="float: bottom" href="{% url "backstage:award_create" pk=actor.id %}">  <h5 class="btn btn-outline-dark link-to-page" >Add award</h5></a>
+  <a style="float: bottom" href="{% url "backstage:award-delete" pk=actor.id %}">  <h5 class="btn btn-outline-dark link-to-page" >delete award</h5></a>
+   <br><br>
 
-    <a style="float: bottom" href="{% url "backstage:award_create" pk=actor.id %}"  class="btn btn-secondary link-to-page"><h5>Add award</h5></a>
-   <p>Plays</p>
+   <h5>Plays:</h5>
       {% if actor.plays.all != 0 %}
-
         <ul>
       {% for play in actor.plays.all %}
-          <li>{{ play.name }}, ({{ play.genre}}
-          </li>
+        <li>
+          <a style="float: bottom" href="{% url "backstage:play-detail" pk=play.id %}"> {{ play.name }}, ({{ play.genre }}, premiere: {{ play.day_of_premiere }})</a>
+        </li>
       {% endfor %}
     </ul>
       {% endif %}

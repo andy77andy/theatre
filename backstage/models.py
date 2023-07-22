@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -14,7 +12,7 @@ class Genre(models.Model):
 
 
 class Actor(AbstractUser):
-    average_fee = models.CharField(max_length=255)
+    average_fee = models.PositiveIntegerField(default=1000)
     year_of_joining = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
@@ -56,6 +54,3 @@ class Award(models.Model):
     actor = models.ForeignKey(Actor, on_delete=models.SET_NULL, related_name="awards", null=True)
     director = models.ForeignKey(Director, on_delete=models.SET_NULL, related_name="director_awards", null=True)
     play = models.ForeignKey(Play, on_delete=models.SET_NULL, related_name="play_awards", null=True)
-
-
-

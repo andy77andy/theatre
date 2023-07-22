@@ -1,9 +1,12 @@
 import datetime
 from datetime import date
+
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from backstage.forms import ActorCreationForm, ActorValidateUpdateDataForm, PlayForm, PlaySearchForm, ActorSearchForm, \
@@ -11,7 +14,7 @@ from backstage.forms import ActorCreationForm, ActorValidateUpdateDataForm, Play
 from backstage.models import Award, Actor, Director, Play, Genre
 
 
-# @login_required
+
 def index(request):
 
     num_actors = Actor.objects.count()
@@ -28,18 +31,7 @@ def index(request):
         "num_visits": num_visits + 1,
     }
 
-    return render(request, "backstage/index.html", context=context)
-
-
-def history(request):
-
-    prev_plays = Play.objects.filter(on_stage=False)
-
-    context = {
-        "prev_plays": prev_plays,
-    }
-
-    return render(request, "backstage/index.html", context=context)
+    return render(request, "backstage/index2.html", context=context)
 
 
 class ActorListView(LoginRequiredMixin, generic.ListView):
@@ -147,17 +139,6 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
     model = Play
     form_class = PlaySearchForm
 
-
-    def get_queryset(self):
-
-        queryset = Play.objects
-        form = PlaySearchForm(self.request.GET)
-
-        if form.is_valid():
-            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
-
-        return queryset
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PlayListView, self).get_context_data(**kwargs)
         context["search"] = PlaySearchForm()
@@ -171,12 +152,12 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
         today = date.today()
         queryset = self.get_queryset()
 
-        play_list = queryset.filter(on_stage=True)
+        current_plays = queryset.filter(on_stage=True, day_of_premiere__lt=today)
         archive_plays = queryset.filter(on_stage=False, day_of_premiere__lt=today)
         upcoming_plays = queryset.filter(on_stage=False, day_of_premiere__gt=today)
 
         context.update({
-            "play-list": play_list,
+            "current_plays": current_plays,
             "archive_plays": archive_plays,
             "upcoming_plays": upcoming_plays
         })
@@ -184,8 +165,8 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_template_names(self) -> list[str]:
-        if 'play-list' in self.request.path:
-            return ['backstage/play_list.html']
+        if 'current' in self.request.path:
+            return ['backstage/current_plays.html']
         elif "archive" in self.request.path:
             return ['backstage/play_archive.html']
         elif 'upcoming' in self.request.path:
@@ -193,6 +174,14 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
         else:
             return super().get_template_names()
 
+    def get_queryset(self):
+        queryset = Play.objects.all()
+        form = PlaySearchForm(self.request.GET)
+
+        if form.is_valid():
+            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
+
+        return queryset
 
 
 class PlayDetailView(LoginRequiredMixin, generic.DetailView):
@@ -202,18 +191,18 @@ class PlayDetailView(LoginRequiredMixin, generic.DetailView):
 class PlayCreateView(LoginRequiredMixin, generic.CreateView):
     model = Play
     form_class = PlayForm
-    success_url = reverse_lazy("backstage:play-list")
+    success_url = reverse_lazy("backstage:play-current")
 
 
 class PlayUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Play
-    form_class  = PlayForm
-    success_url = reverse_lazy("backstage:play-list")
+    form_class = PlayForm
+    success_url = reverse_lazy("backstage:play-current")
 
 
 class PlayDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Play
-    success_url = reverse_lazy("backstage:play-list")
+    success_url = reverse_lazy("backstage:play-current")
     template_name = "backstage/play_confirm_delete.html"
 
 
@@ -314,6 +303,7 @@ class PlayAwardCreateView(LoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         return reverse_lazy('backstage:play-detail', kwargs={"pk": self.kwargs.get("pk")})
 
+
 class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Award
     form_class = AwardForm
@@ -322,8 +312,22 @@ class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Award
-    success_url = reverse_lazy("backstage:award-list")
-    template_name = "backstage/award_confirm_delete.html"
+    success_url = reverse_lazy("backstage:index")
+    template_name = "backstage/award_confirm_delete.htm"
+
+
+# @login_required
+# def award_delete(request, pk):
+#
+#     award = Award.objects.get(id=pk)
+#     actor_id = award.actor.id
+#
+#     if request.method == 'POST':
+#         award.delete()
+#         url = reverse('actor-detail', kwargs={'id': actor_id})
+#         return HttpResponseRedirect(url)
+#
+#     # path('room/<str:pk>/', views.room_message, name='room')
 
 
 

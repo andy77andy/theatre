@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends "base.html" %}
+{% extends 'includes/base.html' %}
+<br>
 <br>
 {% block content %}
-      <a style="float: right" href="{% url "backstage:play-update" pk=play.id %}" class="btn btn-primary link-to-page">
-        Update</a>
-  <h1>
-    {{ play.name }}, {{ play.genre}}
-
-  </h1>
+  <br>
+    <div  class="button-container float-right">
+    <p><a  href="{% url 'backstage:play-delete' pk=play.id%}" class="btn btn-danger link-to-page">
+        Delete
+      </a></p>
+    <p><a href="{% url 'backstage:play-update' pk=play.id %}" class="btn btn-success link-to-page">
+        Update
+      </a></p></div>
+  <h1>{{ play.name }}, {{ play.genre}}</h1>
     <p><strong>Director: {{ play.director.first_name }}, {{ play.director.last_name }} </strong></p>
-    <p><strong>Troupe: {{ play.troupe }} </strong></p>
-
-    <p><strong> Since {{ play.day_of_premiere }}</strong> </p>
+  {% if play.troupe.all != 0 %}
+    <p><strong>Troupe:</strong></p>
+    {% for actor in play.troupe.all %}
+      <lI>{{ actor.first_name }} {{ actor.last_name }}</lI>
+    {% endfor %}
+  {% endif %}
+  <br>
+    <p><strong> Since: </strong>{{ play.day_of_premiere }} </p>
     <p><strong>Brief: </strong> {{ play.description }}</p>
        {% if play.play_awards.all != 0 %}
-        Awards:
+        <p><strong>Awards:</strong></p>
       {% for award in play.play_awards.all %}
-        <li>
-          {{ award.name }} ({{ award.nomination }}, {{ award.year }})
-        </li>
+        <li>{{ award.name }} ({{ award.nomination }}, {{ award.year }})
+        <a style="float: bottom" href="{% url "backstage:award-delete" pk=award.id %}"  class="btn btn-outline-dark link-to-page">Delete award</a></li>
       {% endfor %}
       {% endif %}
-     <a style="float: bottom" href="{% url "backstage:play_award_create" pk=play.id %}"  class="btn btn-secondary link-to-page"><h5>Add award</h5></a>
+     <a style="float: bottom" href="{% url "backstage:play_award_create" pk=play.id %}"  class="btn btn-outline-dark link-to-page"><h5>Add award</h5></a>
 
 
 {% endblock %}

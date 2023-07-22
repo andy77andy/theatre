@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends "base.html" %}
+{% extends 'includes/base.html' %}
 {% load crispy_forms_filters %}
 
 {% block content %}
 
-
-    <a style="float: right" href="{% url 'backstage:actor-create' %}" class="btn btn-primary link-to-page">
+  <br><br>
+  <a style="float: right" href="{% url 'backstage:actor-create' %}" class="btn btn-primary link-to-page">
         Create
       </a>
-    <a href="{% url "backstage:actor-list" %}" class="btn btn-primary link-to-page"><h1>Our Actors</h1></a>
+    <h2>Our Actors</h2>
 
-  <form action="" method="get" >
+  <form action="" method="get" class="form-inline">
   {{ search|crispy }}
-    <br>
-    <input type="submit" >
+    <input class="btn btn-outline-secondary"  type="submit" value="!">
   </form>
         {% if actor_list %}
               <table class="table">
@@ -28,23 +27,16 @@
       </tr>
     {% for actor in actor_list %}
       <tr>
-        <td>{{ actor.id }}</td>
+        <td><p><a href="{% url "backstage:actor-detail" pk=actor.id  %}" class="btn  link-to-page">{{ actor.id }}(click for details)
+    </a></p></td>
         <td>{{ actor.username }} </td>
         <td>{{ actor.first_name }}</td>
         <td>{{ actor.last_name }}</td>
-        <td><a href="{% url "backstage:actor-update" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>
-        <td><a href="{% url "backstage:actor-delete" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>
+        <td><a href="{% url "backstage:actor-update" pk=actor.id %}" > + </a></td>
+        <td><a href="{% url "backstage:actor-delete" pk=actor.id %}" >  - </a></td>
       </tr>
     {% endfor %}
 
     </table>
-            {% for actor in actor_list %}
-                <p><a href="{% url "backstage:actor-detail" pk=actor.id  %}" class="btn  link-to-page">{{ actor.first_name }} {{ actor.last_name }}
-    </a></p>
-            {% endfor %}
-
-            {% else %}
-            <p>There are no actors in the theatre</p>
-        {% endif %}
-
+{% endif %}
 {% endblock %}

@@ -1,5 +1,11 @@
-  * {
-text-decoration: underline;
-font-style: italic;
-      color: #993333;
-}
+    .button-container {
+      display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .content-block {
+        background-image: url("../img/illustrations/rocket-white.png");
+
+        background-size: cover;
+    }

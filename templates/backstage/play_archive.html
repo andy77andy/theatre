@@ -1,24 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="en">
+{% extends 'includes/base.html' %}
 {% load crispy_forms_filters %}
-{{ form|crispy }}
-
 {% block content %}
-    <a href="{% url "backstage:play-archive" %}" class="btn btn-primary link-to-page"><h1>Archive plays</h1></a>
-      <br>
+  <br>
+    <a style="float: right" href="{% url 'backstage:play-create' %}" class="btn btn-primary link-to-page">
+        Create
+      </a>
+  <br>
+  <h2>Archive:</h2>
+  <br>
   <form action="" method="get" class="form-inline">
     {{ search|crispy }}
-    <input class="btn btn-secondary" type="submit" value="!">
-  </form>
+    <input class="btn btn-outline-secondary" type="submit" value="!">
+  </form><br><br>
         {% if archive_plays %}
             {% for play in archive_plays %}
-              plays: <p><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-secondary link-to-page">{{ play.name }}, {{ play.genre }}, {{ play.day_of_premiere }}
-    </a></p>
-
+              <ul>
+                <li><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-outline-secondary link-to-page">
+                  <strong>{{ play.name }}</strong> ({{ play.genre }}, premiere: {{ play.day_of_premiere }})</a></li></ul>
 
             {% endfor %}
             {% else %}
-            <p>There are no plays in our history yet</p>
+            <p>There are no data about upcoming plays yet</p>
         {% endif %}
 
 

@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends "base.html" %}
+{% extends 'includes/base.html' %}
 {% load crispy_forms_filters %}
 
 
 
 {% block content %}
+  <br>
   <a style="float: right" href="{% url 'backstage:director-create' %}" class="btn btn-primary link-to-page">
         Create
       </a>
-    <a href="{% url "backstage:director-list" %}" class="btn btn-primary link-to-page"><h1>Our Directors</h1></a>
+  <h3>Our Directors:</h3>
+    <a href="{% url "backstage:director-list" %}" ></a>
         {% if director_list %}
             {% for director in director_list %}
-                <p><a href="{% url "backstage:director-detail" pk=director.id  %}" class="btn btn-secondary link-to-page">{{ director.first_name }} {{ director.last_name }}
+                <p><a href="{% url "backstage:director-detail" pk=director.id  %}" class="btn btn btn-outline-secondary  link-to-page"><strong style="font-size: 20px ">{{ director.first_name }} {{ director.last_name }}</strong>
     </a></p>
             {% endfor %}
             {% else %}

@@ -1,54 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends "base.html" %}
+{% extends 'includes/base.html' %}
 
 {% block content %}
-  <h1> Director:
+  <br>
+    <div  class="button-container float-right">
+    <p><a  href="{% url 'backstage:director-delete' pk=director.id%}" class="btn btn-danger link-to-page">
+        Delete
+      </a></p>
+    <p><a href="{% url 'backstage:director-update' pk=director.id %}" class="btn btn-success link-to-page">
+        Update
+      </a></p></div>
+  <h4> Director:</h4>
 
-  </h1>
-
-  <p><strong>{{ director.first_name }} {{ director.last_name }} </strong> </p>
+  <h3>{{ director.first_name }} {{ director.last_name }} </h3>
   <p><strong>Is staff:</strong> {{ actor.is_staff }}</p>
        {% if director.director_awards.all != 0 %}
-        Awards:
+        <h5> Awards:</h5>
       {% for award in director.director_awards.all %}
+        <ul>
         <li>
           {{ award.name }} ({{ award.nomination }}, {{ award.year }})
-        </li>
+        </li></ul>
       {% endfor %}
       {% endif %}
-     <a style="float: bottom" href="{% url "backstage:director_award_create" pk=director.id %}"  class="btn btn-secondary link-to-page"><h5>Add award</h5></a>
+
+     <a style="float: bottom" href="{% url "backstage:director_award_create" pk=director.id %}"  class="btn btn-outline-dark   link-to-page"><h5>Add award</h5></a>
+{#    <a style="float: bottom" href="{% url "backstage:award_delete" pk=award.id %}"  class="btn btn-light link-to-page"><h5>Delete award</h5></a>#}
+
       {% if director.plays.all != 0 %}
+        <br><br>
+        <h5>Plays:</h5>
     <ul>
-     >
       {% for play in director.plays.all %}
         <li>
-          Current plays: {{ play.name }}, ({{ play.genre }}, premiere: {{ play.day_of_premiere }})
+          <a style="float: bottom" href="{% url "backstage:play-detail" pk=play.id %}"  ><h5>{{ play.name }}, ({{ play.genre }}, premiere: {{ play.day_of_premiere }})</h5></a>
         </li>
       {% endfor %}
       {% else %}
           No current plays
       {% endif %}
     </ul>
-                <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Updater</th>
-        <th>Delete</th>
-      </tr>
-    {% for actor in actor_list %}
-      <tr>
-        <td>{{ actor.id }}</td>
-        <td>{{ actor.username }} </td>
-        <td>{{ actor.first_name }}</td>
-        <td>{{ actor.last_name }}</td>
-        <td><a href="{% url "backstage:actor-update" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>
-        <td><a href="{% url "backstage:actor-delete" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>
-      </tr>
-    {% endfor %}
+{#                <table class="table">#}
+{#      <tr>#}
+{#        <th>ID</th>#}
+{#        <th>Username</th>#}
+{#        <th>First name</th>#}
+{#        <th>Last name</th>#}
+{#        <th>Updater</th>#}
+{#        <th>Delete</th>#}
+{#      </tr>#}
+{#    {% for actor in actor_list %}#}
+{#      <tr>#}
+{#        <td>{{ actor.id }}</td>#}
+{#        <td>{{ actor.username }} </td>#}
+{#        <td>{{ actor.first_name }}</td>#}
+{#        <td>{{ actor.last_name }}</td>#}
+{#        <td><a href="{% url "backstage:actor-update" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>#}
+{#        <td><a href="{% url "backstage:actor-delete" pk=actor.id %}" class="btn btn-primary link-to-page"></a></td>#}
+{#      </tr>#}
+{#    {% endfor %}#}
 
 
 {% endblock %}

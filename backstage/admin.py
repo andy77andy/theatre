@@ -20,7 +20,6 @@ class ActorAdmin(UserAdmin):
                         "first_name",
                         "last_name",
                         "average_fee",
-                        # "awards",
                         "year_of_joining",
                     )
                 },

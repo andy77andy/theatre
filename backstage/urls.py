@@ -3,8 +3,8 @@ from django.urls import path
 from backstage.views import index, ActorListView, ActorDetailView, DirectorListView, GenreListView, PlayListView, \
     DirectorDetailView, PlayDetailView, ActorCreateView, DirectorCreateView, GenreCreateView, PlayCreateView, \
     AwardCreateView, AwardListView, DirectorUpdateView, ActorUpdateView, GenreUpdateView, PlayUpdateView, \
-    AwardUpdateView, ActorDeleteView, DirectorDeleteView, GenreDeleteView, PlayDeleteView, AwardDeleteView, \
-    DirectorAwardCreateView, PlayAwardCreateView
+    AwardUpdateView, ActorDeleteView, DirectorDeleteView, GenreDeleteView, PlayDeleteView, \
+    DirectorAwardCreateView, PlayAwardCreateView, AwardDeleteView
 
 urlpatterns = [
     path("", index, name="index"),
@@ -26,7 +26,7 @@ urlpatterns = [
     path("genres/create/", GenreCreateView.as_view(), name="genre-create"),
     path("genres/<int:pk>/update/", GenreUpdateView.as_view(), name="genre-update"),
     path("genres/<int:pk>/delete/", GenreDeleteView.as_view(), name="genre-delete"),
-    path("plays/", PlayListView.as_view(), name="play-list"),
+    path("plays/current/", PlayListView.as_view(), name="play-current"),
     path("plays/upcoming/", PlayListView.as_view(), name="play-upcoming"),
     path("plays/archive/", PlayListView.as_view(), name="play-archive"),
     path(
