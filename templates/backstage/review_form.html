@@ -1,0 +1,16 @@
+
+
+{% extends 'includes/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <div class="marg-left" style="display: inline-block">
+  <h1>{{ object|yesno:"Update,Create" }} genre</h1>
+  <form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
+  </div>
+{% endblock %}

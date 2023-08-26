@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'includes/base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block content %}
+<div class="marg-left">
+  <a style="float: right" href="{% url 'backstage:genre-create' %}" class="btn btn-primary link-to-page">
+        Create</a>
+            {% for genre in genre_list %}
+            <p><a href="" target="_blank" class=" me-xl-5 me-3 mb-sm-0 mb-2 btn text-decoration-underline" style="font-size: 25px; color: lavender">{{ genre.name }}</a>
+              {% for play in genre.plays.all %}{% if play.on_stage %}
+        <a href="{% url "backstage:play-detail" pk=play.id %}" style="font-size: 20px" style="color: white !important">*{{ play.name }}*</a>{% endif %}{% endfor %}</p>
+            {% endfor %}
+
+  </div>
+          {% endblock %}

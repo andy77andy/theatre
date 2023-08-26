@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'includes/base.html' %}
+
+{% block content %}
+  <div class="marg-left">
+  <br>
+    <div  class="button-container float-right" >
+    <p><a  href="{% url 'backstage:director-delete' pk=director.id%}" class="btn btn-danger link-to-page">
+        Delete
+      </a></p>
+    <p><a href="{% url 'backstage:director-update' pk=director.id %}" class="btn btn-success link-to-page">
+        Update
+      </a></p></div>
+  <h4 style="color: lavender"> Director:</h4>
+
+  <h3 style="color: lavender">{{ director.first_name }} {{ director.last_name }} </h3>
+  <p><strong>Is staff:</strong> {{ actor.is_staff }}</p>
+       {% if director.director_awards.all != 0 %}
+        <h5 style="color: lavender"> Awards:</h5>
+      {% for award in director.director_awards.all %}
+        <li>
+          {{ award.name }} ({{ award.nomination }}, {{ award.year }})
+        <a style="float: bottom" href="{% url "backstage:award-delete" pk=award.id %}"  class="btn link-danger link-to-page">Delete award</a></li>
+        </li>
+      {% endfor %}
+      {% endif %}
+
+     <a style="float: bottom" href="{% url "backstage:director_award_create" pk=director.id %}"  class="btn btn-outline-dark   link-to-page"><h5>Add award</h5></a>
+
+      {% if director.plays.all != 0 %}
+        <br><br>
+        <h5>Plays:</h5>
+    <ul>
+      {% for play in director.plays.all %}
+        <li>
+          <a style="float: bottom" href="{% url "backstage:play-detail" pk=play.id %}"  ><h5>{{ play.name }}, ({{ play.genre }}, premiere: {{ play.day_of_premiere }})</h5></a>
+        </li>
+      {% endfor %}
+      {% else %}
+          No current plays
+      {% endif %}
+    </ul>
+  </div>
+{% endblock %}
