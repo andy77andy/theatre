@@ -15,12 +15,6 @@
                   {% if award.play %} {{ award.play.name}} {% endif %}
                   {% if award.director %} {{ award.director}} {% endif %}</h5>
               <div   class="form-inline"><a href="{% url "backstage:award-delete-from-list" pk=award.id %}">(delete award)</a></div>
-
-{#                  {% if genre.plays.all != 0 %}#}
-{#                    {% for play in genre.plays.all %}#}
-{#                    <p><a href="{% url "backstage:play-detail" pk=play.id %}" class="btn btn-primary link-to-page">{{ play.name }}</a></p>#}
-{#                  {% endfor %}#}
-{#                {% endif %}#}
             {% endfor %}
             {% else %}
             <p>There are no awards entered yet</p>

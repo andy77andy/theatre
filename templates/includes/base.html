@@ -1,9 +1,3 @@
-{#{% load i18n static admin_soft %}#}
-{#{% get_current_language as LANGUAGE_CODE %}#}
-{#{% get_current_language_bidi as LANGUAGE_BIDI %}#}
-{#{% get_direction as direction %}#}
-{#{% get_admin_setting as admin_setting %}#}
-
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}">
 {% load static %}
@@ -16,25 +10,13 @@
 
     <!-- Favicon -->
     <meta charset="utf-8" />
-{#    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
-{#    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/apple-icon.png' %}">#}
-{#    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">#}
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <!-- Nucleo Icons -->
-{#    <link href="{% static 'css/nucleo-icons.css' %}" rel="stylesheet" />#}
+
     <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet" />
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-{#    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>#}
-{#    <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet" />#}
-    <!-- CSS Files -->
+
     <link id="pagestyle" href="{% static 'css/soft-ui-dashboard.css' %}" rel="stylesheet" />
-{#    <link id="pagestyle_dark" href="{% static 'css/dark-theme-core.css' %}" rel="stylesheet" />#}
-
-{#    {% block extrahead %}{% endblock extrahead %}#}
-{#    {% block extrastyle %}{% endblock extrastyle %}#}
-
 </head>
 
 <body class="g-sidenav-show bg-gray-100" class="position-fixed bottom-0">

@@ -1,35 +1,30 @@
-# Taxi service search and tests
+# Theatre service
 
-- Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before start
+- this project allows the theater community to plunge into the inner world of our theater,
+take a look at his story and get acquainted with his immediate plans
+ 
+## Check it out!
 
-In this task, you will implement search feature for your website and write tests for your project.
+[Thetre service project](https://)
 
-1. Implement search feature for all 3 pages with content:
-   - drivers - by username
-   - cars - by model
-   - manufacturers - by name
-2. Write tests for custom and for core project features (no need to test built-in functionality).
-   Use this [tutorial](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing) as helper.
-   You decide what to test and how to test (train your testing skills here).
-3. Write tests for the searching feature that you have implemented. Make sure yourself, that it works as expected.
+## Installation
+Python3 must be already installed
+
+
+```python
+git clone://github.com/andy77andy/theatre
+cd thetre
+pythone -m venv venv 
+source venv/bin/activate
+pip install -r requirements/txt
+python manage/py runserver
+```
+## Features
+1. Authentication abilities for Actor/User
+2. Managing theatre's inner life including play's details and upcoming plans
+3. Convenient and friendly admin panel
 
 NOTE: Attach screenshots of all created pages to pull request. It's important to attach images not links to them.
 
-# Note
-Follow these steps if you need to use `crispy_forms` v2.0 with Python 3.11:
-
-1. Add `CRISPY_TEMPLATE_PACK` to `settings.py`.
-
-```python
-CRISPY_TEMPLATE_PACK="bootstrap4"
-```
-
-2. Add these apps to `INSTALLED_APPS` and install them corresponding to the `CRISPY_TEMPLATE_PACK` bootstrap version.
-
-```python
-INSTALLED APPS = [
-   ...,
-   "crispy_bootstrap4",
-   "crispy_forms",
-]
-```
+## Demo
+![Interface](Demo.png)

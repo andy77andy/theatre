@@ -56,6 +56,7 @@ class ActorListView(LoginRequiredMixin, generic.ListView):
 
         return context
 
+    """redefine method to create convenient search form"""
     def get_queryset(self) -> QuerySet:
         queryset = (
             Actor.objects.prefetch_related("awards")
@@ -190,6 +191,7 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
 
         return context
 
+    """in this method we define template depending on required plays type"""
     def get_template_names(self) -> list[str]:
         if 'current' in self.request.path:
             return ['backstage/current_plays.html']
@@ -240,6 +242,7 @@ class AwardListView(LoginRequiredMixin, generic.ListView):
         return datetime.date.today().year
 
 
+"""below, create views to be able to add the award on the recipient's page"""
 class AwardCreateView(LoginRequiredMixin, generic.CreateView):
     model = Award
     form_class = AwardForm
@@ -330,8 +333,8 @@ class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "backstage/award_confirm_delete.html"
 
 
+"""Create a function to delete award with different beneficiaries"""
 def delete_award(request, pk):
-    # Get the award instance
     award = Award.objects.get(pk=pk)
 
     related_object_type = None
@@ -346,10 +349,8 @@ def delete_award(request, pk):
     elif award.play:
         related_object_type = 'play'
         related_object_id = award.play.id
-    # # Delete the award
     award.delete()
 
-    # Redirect back to the detail page of the related object
     if related_object_type and related_object_id:
         return redirect(f'backstage:{related_object_type}-detail', pk=related_object_id)
     return redirect("backstage:award-list")
