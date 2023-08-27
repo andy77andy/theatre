@@ -4,19 +4,17 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-
+<div class="marg-left">
   <br><br>
   <a style="float: right" href="{% url 'backstage:actor-create' %}" class="btn btn-primary link-to-page">
-        Create
-      </a>
-    <h2>Our Actors</h2>
-
+        Create</a>
+    <h2 style="color: lavender">Our Actors</h2>
   <form action="" method="get" class="form-inline">
   {{ search|crispy }}
     <input class="btn btn-outline-secondary"  type="submit" value="!">
   </form>
         {% if actor_list %}
-              <table class="table">
+              <table class="table" style="color: lavender">
       <tr>
         <th>ID</th>
         <th>Username</th>
@@ -32,11 +30,12 @@
         <td>{{ actor.username }} </td>
         <td>{{ actor.first_name }}</td>
         <td>{{ actor.last_name }}</td>
-        <td><a href="{% url "backstage:actor-update" pk=actor.id %}" > + </a></td>
-        <td><a href="{% url "backstage:actor-delete" pk=actor.id %}" >  - </a></td>
+        <td><a href="{% url "backstage:actor-update" pk=actor.id %}" > <h1> + </h1></a></td>
+        <td><a href="{% url "backstage:actor-delete" pk=actor.id %}" > <h1> - </h1></a></td>
       </tr>
     {% endfor %}
 
     </table>
+          </div>
 {% endif %}
 {% endblock %}

@@ -2,17 +2,20 @@
 <html lang="en">
 {% extends 'includes/base.html' %}
 {% load crispy_forms_filters %}
-
+{% load static %}
 {% block content %}
-  <br>
-{#  <a style="float: right" href="{% url 'backstage:genre-create' %}" class="btn btn-primary link-to-page">#}
-{#        Create#}
-{#      </a>#}
-    <a href="{% url "backstage:award-list" %}" class="btn btn-primary link-to-page"><h1>Awards</h1></a>
+    <div class="marg-left" style="color: lavender">
+
+    <h2 style="color: lavender">Awards</h2>
         {% if award_list %}
             {% for award in award_list %}
               <hr>
-                  <h3>{{ award.name }}, {{ award.nomination }}, {{ award.year}}, {{ award.actor }}</h3>
+                  <h5 style="color: white">{{ award.name }}, {{ award.nomination }}, {{ award.year}} -
+                  {% if award.actor %} {{ award.actor.first_name }}  {{ award.actor.last_name }}{% endif %}
+                  {% if award.play %} {{ award.play.name}} {% endif %}
+                  {% if award.director %} {{ award.director}} {% endif %}</h5>
+              <div   class="form-inline"><a href="{% url "backstage:award-delete-from-list" pk=award.id %}">(delete award)</a></div>
+
 {#                  {% if genre.plays.all != 0 %}#}
 {#                    {% for play in genre.plays.all %}#}
 {#                    <p><a href="{% url "backstage:play-detail" pk=play.id %}" class="btn btn-primary link-to-page">{{ play.name }}</a></p>#}
@@ -20,8 +23,8 @@
 {#                {% endif %}#}
             {% endfor %}
             {% else %}
-            <p>There are no genres yet</p>
+            <p>There are no awards entered yet</p>
         {% endif %}
 
-
+</div>
 {% endblock %}

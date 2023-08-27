@@ -1,4 +1,3 @@
-import form as form
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
@@ -116,10 +115,10 @@ class AwardForm(forms.ModelForm):
 
     NAME_CHOICES = [
         ('', '--- Select Award ---'),
-        ('tony', 'Tony'),
-        ('pectoral', 'Pectoral'),
+        ('Tony', 'Tony'),
+        ('Pectoral', 'Pectoral'),
         ('Ibsens', 'Ibsens'),
-        ('liga', 'Liga'),
+        ('Liga', 'Liga'),
         ('Benefit', 'Benefit')
     ]
 

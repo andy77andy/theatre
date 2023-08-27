@@ -1,18 +1,21 @@
 import datetime
 from datetime import date
 
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views import generic
 
-from backstage.forms import ActorCreationForm, ActorValidateUpdateDataForm, PlayForm, PlaySearchForm, ActorSearchForm, \
+from backstage.forms import (
+    ActorCreationForm,
+    ActorValidateUpdateDataForm,
+    PlayForm,
+    PlaySearchForm,
+    ActorSearchForm,
     AwardForm
-from backstage.models import Award, Actor, Director, Play, Genre
-
+)
+from backstage.models import Award, Actor, Director, Play, Genre, Review
 
 
 def index(request):
@@ -39,6 +42,7 @@ class ActorListView(LoginRequiredMixin, generic.ListView):
     queryset = (
         Actor.objects.prefetch_related("awards")
     )
+    paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ActorListView, self).get_context_data(**kwargs)
@@ -92,7 +96,6 @@ class DirectorListView(LoginRequiredMixin, generic.ListView):
 
 class DirectorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Director
-    queryset = Director.objects
 
 
 class DirectorCreateView(LoginRequiredMixin, generic.CreateView):
@@ -115,6 +118,7 @@ class DirectorDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class GenreListView(LoginRequiredMixin, generic.ListView):
     model = Genre
+    fields = "__all__"
 
 
 class GenreCreateView(LoginRequiredMixin, generic.CreateView):
@@ -133,6 +137,28 @@ class GenreDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Genre
     success_url = reverse_lazy("backstage:genre-list")
     template_name = "backstage/genre_confirm_delete.html"
+
+
+class ReviewListView(LoginRequiredMixin, generic.ListView):
+    model = Review
+    fields = "__all__"
+
+
+class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Review
+    fields = "__all__"
+    success_url = reverse_lazy("backstage:review-list")
+
+
+class ReviewDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Review
+    fields = "__all__"
+
+
+class ReviewDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Review
+    success_url = reverse_lazy("backstage:review-list")
+    template_name = "backstage/review_confirm_delete.html"
 
 
 class PlayListView(LoginRequiredMixin, generic.ListView):
@@ -154,7 +180,7 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
 
         current_plays = queryset.filter(on_stage=True, day_of_premiere__lt=today)
         archive_plays = queryset.filter(on_stage=False, day_of_premiere__lt=today)
-        upcoming_plays = queryset.filter(on_stage=False, day_of_premiere__gt=today)
+        upcoming_plays = queryset.filter(day_of_premiere__gt=today)
 
         context.update({
             "current_plays": current_plays,
@@ -233,18 +259,6 @@ class AwardCreateView(LoginRequiredMixin, generic.CreateView):
             award.actor_id = pk  # Assign the actor to the award
             award.save()
             return redirect('backstage:actor-detail', pk=pk)
-            # if 'actors' in request.path:
-            #     award.object_id = pk  # Assign the actor to the award
-            #     award.save()
-            #     return redirect('backstage:actor-detail', pk=pk)
-            # if 'directors' in request.path:
-            #     award.director(id=pk)  # Assign the actor to the award
-            #     award.save()
-            #     return redirect('backstage:director-detail', pk=pk)
-            # if 'plays' in request.path:
-            #     award.object_id = pk  # Assign the actor to the award
-            #     award.save()
-            #     return redirect('backstage:play-detail', pk=pk)
         else:
             return redirect('backstage:award_create', pk=pk)
 
@@ -312,22 +326,30 @@ class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Award
-    success_url = reverse_lazy("backstage:index")
-    template_name = "backstage/award_confirm_delete.htm"
+    success_url = reverse_lazy("backstage:award-list")
+    template_name = "backstage/award_confirm_delete.html"
 
 
-# @login_required
-# def award_delete(request, pk):
-#
-#     award = Award.objects.get(id=pk)
-#     actor_id = award.actor.id
-#
-#     if request.method == 'POST':
-#         award.delete()
-#         url = reverse('actor-detail', kwargs={'id': actor_id})
-#         return HttpResponseRedirect(url)
-#
-#     # path('room/<str:pk>/', views.room_message, name='room')
+def delete_award(request, pk):
+    # Get the award instance
+    award = Award.objects.get(pk=pk)
 
+    related_object_type = None
+    related_object_id = None
 
+    if award.actor:
+        related_object_type = 'actor'
+        related_object_id = award.actor.id
+    elif award.director:
+        related_object_type = 'director'
+        related_object_id = award.director.id
+    elif award.play:
+        related_object_type = 'play'
+        related_object_id = award.play.id
+    # # Delete the award
+    award.delete()
 
+    # Redirect back to the detail page of the related object
+    if related_object_type and related_object_id:
+        return redirect(f'backstage:{related_object_type}-detail', pk=related_object_id)
+    return redirect("backstage:award-list")

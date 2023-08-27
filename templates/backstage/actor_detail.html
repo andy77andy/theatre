@@ -3,6 +3,7 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
+  <div class="marg-left">
     <br>
     <div  class="button-container float-right">
         <p><a href="{% url 'backstage:actor-update' pk=actor.id %}" class="btn btn-success link-to-page">
@@ -10,27 +11,27 @@
     <p><a  href="{% url 'backstage:actor-delete' pk=actor.id%}" class="btn btn-danger link-to-page">
         Delete</a></p>
 </div>
-  <h3>{{ actor.username }}</h3>
+  <h3 style="color: lavender">{{ actor.username }}</h3>
 
     <p><strong style="font-size: 20px">{{ actor.first_name }} {{ actor.last_name }} </strong> </p>
-    <p><strong> Since: {{ actor.year_of_joining }}</strong> </p>
+    <p><strong> Since: </strong> {{ actor.year_of_joining }}</p>
     <p><strong>Average fee:</strong> {{ actor.average_fee }}</p>
     <p><strong>Is staff:</strong> {{ actor.is_staff }}</p>
 
-      {% if actor.awards.all != 0 %}
-          <h5>Awards:</h5>
-    <ul>
-        {% for award in actor.awards.all %}
-        <li>
-          {{ award.name }}, ({{ award.nomination }}, {{ award.year }})
-        </li></ul>
-        {% endfor %}
+         {% if actor.awards.all != 0 %}
+        <p style="margin-top: 10px"><strong>Awards:</strong></p>
+      {% for award in actor.awards.all %}
+        <li>{{ award.name }} ({{ award.nomination }}, {{ award.year }})
+        <a style="float: bottom" href="{% url "backstage:award-delete" pk=award.id %}"  class="btn link-danger link-to-page">Delete award</a></li>
+      {% endfor %}
       {% endif %}
-    <a style="float: bottom" href="{% url "backstage:award_create" pk=actor.id %}">  <h5 class="btn btn-outline-dark link-to-page" >Add award</h5></a>
-  <a style="float: bottom" href="{% url "backstage:award-delete" pk=actor.id %}">  <h5 class="btn btn-outline-dark link-to-page" >delete award</h5></a>
+     <a style="float: bottom" href="{% url "backstage:actor_award_create" pk=actor.id %}"  class="btn btn-outline-dark link-to-page"><h5>Add award</h5></a>
+{#        {% endfor %}#}
+{#      {% endif %}#}
+{#    <a style="float: bottom" href="{% url "backstage:award_create" pk=actor.id %}">  <h5 class="btn btn-outline-dark link-to-page" >Add award</h5></a>#}
    <br><br>
 
-   <h5>Plays:</h5>
+   <h5 style="color: lavender">Plays:</h5>
       {% if actor.plays.all != 0 %}
         <ul>
       {% for play in actor.plays.all %}
@@ -40,5 +41,5 @@
       {% endfor %}
     </ul>
       {% endif %}
-
+  </div>
 {% endblock %}

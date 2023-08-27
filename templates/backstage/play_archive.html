@@ -1,24 +1,52 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#{% extends 'includes/base.html' %}#}
+{#{% load static %}#}
+{#{% load crispy_forms_filters %}#}
+{#{% block content %}#}
+{#  <div class="marg-left">#}
+{#    <a style="float: right" href="{% url 'backstage:play-create' %}" class="btn btn-primary link-to-page">#}
+{#        Create#}
+{#      </a>#}
+{#  <h2 style="margin-left: 20px; color: white" >Archive:</h2>#}
+{#<form action="" method="get" class="form-inline">#}
+{#  {{ search|crispy }}#}
+{#    <input class="btn btn-outline-secondary"  type="submit" value="!">#}
+{#  </form><br><br>#}
+{#        {% if archive_plays %}#}
+{#            {% for play in archive_plays %}#}
+{#              <ul>#}
+{#                <li><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-outline-secondary link-to-page">#}
+{#                  <strong>{{ play.name }}</strong> ({{ play.genre }}, premiere: {{ play.day_of_premiere }})</a></li></ul>#}
+{##}
+{#            {% endfor %}#}
+{#            {% else %}#}
+{#            <p>There are no data about upcoming plays yet</p>#}
+{#        {% endif %}#}
+{#  </div>#}
+{#{% endblock %}#}
 
 <!DOCTYPE html>
 <html lang="en">
 {% extends 'includes/base.html' %}
+{% load static %}
 {% load crispy_forms_filters %}
 {% block content %}
-  <br>
+  <div class="marg-left">
     <a style="float: right" href="{% url 'backstage:play-create' %}" class="btn btn-primary link-to-page">
         Create
       </a>
+  <h2 style="margin-left: 20px; color: white" >Archive</h2>
   <br>
-  <h2>Archive:</h2>
-  <br>
-  <form action="" method="get" class="form-inline">
-    {{ search|crispy }}
-    <input class="btn btn-outline-secondary" type="submit" value="!">
-  </form><br><br>
+  <div style="display: flex">
+<form action="" method="get" class="form-inline">
+  {{ search|crispy }}
+    <input class="btn btn-outline-secondary"  type="submit" value="!">
+  </form><br><br></div>
         {% if archive_plays %}
             {% for play in archive_plays %}
               <ul>
-                <li><a href="{% url "backstage:play-detail" pk=play.id  %}" class="btn btn-outline-secondary link-to-page">
+                <li><a href="{% url "backstage:play-detail" pk=play.id %}" class="btn btn-outline-secondary link-to-page">
                   <strong>{{ play.name }}</strong> ({{ play.genre }}, premiere: {{ play.day_of_premiere }})</a></li></ul>
 
             {% endfor %}
@@ -26,5 +54,5 @@
             <p>There are no data about upcoming plays yet</p>
         {% endif %}
 
-
+ </div>
 {% endblock %}

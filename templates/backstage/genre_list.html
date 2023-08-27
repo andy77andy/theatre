@@ -2,27 +2,17 @@
 <html lang="en">
 {% extends 'includes/base.html' %}
 {% load crispy_forms_filters %}
+{% load static %}
 
 {% block content %}
-    <a style="float: right" href="{% url 'backstage:genre-create' %}" class="btn btn-primary link-to-page">
-  {{ form|crispy }}
- Create</a>
-  <br>
-
-    <h2>Genres</h2>
-        {% if genre_list %}
+<div class="marg-left">
+  <a style="float: right" href="{% url 'backstage:genre-create' %}" class="btn btn-primary link-to-page">
+        Create</a>
             {% for genre in genre_list %}
-              <hr><h3 class="btn btn-outline-secondary" class="form-inline">{{ genre.name }} </h3>
-                  {% if genre.plays.all != 0 %}
-                  {% for play in genre.plays.all %}
-                      <ul><li><a href="{% url "backstage:play-detail" pk=play.id %}">{{ play.name }}</a></li></ul>
-                  {% endfor %}
-
-                {% endif %}
+            <p><a href="" target="_blank" class=" me-xl-5 me-3 mb-sm-0 mb-2 btn text-decoration-underline" style="font-size: 25px; color: lavender">{{ genre.name }}</a>
+              {% for play in genre.plays.all %}{% if play.on_stage %}
+        <a href="{% url "backstage:play-detail" pk=play.id %}" style="font-size: 20px" style="color: white !important">*{{ play.name }}*</a>{% endif %}{% endfor %}</p>
             {% endfor %}
-            {% else %}
 
-            <p>There are no genres yet</p>
-        {% endif %}
-
-{% endblock %}
+  </div>
+          {% endblock %}

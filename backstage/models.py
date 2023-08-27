@@ -47,6 +47,21 @@ class Play(models.Model):
         return f"{self.name}, {self.genre}, director: {self.director}"
 
 
+class Review(models.Model):
+    source = models.CharField(max_length=255)
+    date = models.DateField(auto_now_add=True)
+    text = models.TextField(default="Best ever play")
+    header = models.CharField(max_length=500, default="Best ever play")
+    play = models.ForeignKey(Play, on_delete=models.DO_NOTHING, related_name="reviews", blank=True, null=True)
+    author = models.CharField(max_length=200)
+
+    def __str__(self):
+        return {self.header}
+
+    class Meta:
+        ordering = ["-date"]
+
+
 class Award(models.Model):
     name = models.CharField(max_length=50)
     nomination = models.CharField(max_length=50, null=True)

@@ -6,11 +6,12 @@
 
 
 {% block content %}
+  <div class="marg-left">
   <br>
   <a style="float: right" href="{% url 'backstage:director-create' %}" class="btn btn-primary link-to-page">
         Create
       </a>
-  <h3>Our Directors:</h3>
+  <h2 style="color: lavender">Our Directors</h2>
     <a href="{% url "backstage:director-list" %}" ></a>
         {% if director_list %}
             {% for director in director_list %}
@@ -20,6 +21,6 @@
             {% else %}
             <p>There are no directors in the theatre</p>
         {% endif %}
-
+</div>
 
 {% endblock %}
