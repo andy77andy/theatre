@@ -37,8 +37,12 @@ class Play(models.Model):
     on_stage = models.BooleanField(default=True)
     day_of_premiere = models.DateField(blank=True, null=True)
     description = models.TextField(default="Best ever play")
-    director = models.ForeignKey(Director, on_delete=models.DO_NOTHING, related_name="plays")
-    genre = models.ForeignKey(Genre, on_delete=models.DO_NOTHING, related_name="plays", blank=True, null=True)
+    director = models.ForeignKey(
+        Director, on_delete=models.DO_NOTHING, related_name="plays"
+    )
+    genre = models.ForeignKey(
+        Genre, on_delete=models.DO_NOTHING, related_name="plays", blank=True, null=True
+    )
 
     class Meta:
         ordering = ["day_of_premiere"]
@@ -52,7 +56,9 @@ class Review(models.Model):
     date = models.DateField(auto_now_add=True)
     text = models.TextField(default="Best ever play")
     header = models.CharField(max_length=500, default="Best ever play")
-    play = models.ForeignKey(Play, on_delete=models.DO_NOTHING, related_name="reviews", blank=True, null=True)
+    play = models.ForeignKey(
+        Play, on_delete=models.DO_NOTHING, related_name="reviews", blank=True, null=True
+    )
     author = models.CharField(max_length=200)
 
     def __str__(self):
@@ -66,6 +72,12 @@ class Award(models.Model):
     name = models.CharField(max_length=50)
     nomination = models.CharField(max_length=50, null=True)
     year = models.PositiveIntegerField()
-    actor = models.ForeignKey(Actor, on_delete=models.SET_NULL, related_name="awards", null=True)
-    director = models.ForeignKey(Director, on_delete=models.SET_NULL, related_name="director_awards", null=True)
-    play = models.ForeignKey(Play, on_delete=models.SET_NULL, related_name="play_awards", null=True)
+    actor = models.ForeignKey(
+        Actor, on_delete=models.SET_NULL, related_name="awards", null=True
+    )
+    director = models.ForeignKey(
+        Director, on_delete=models.SET_NULL, related_name="director_awards", null=True
+    )
+    play = models.ForeignKey(
+        Play, on_delete=models.SET_NULL, related_name="play_awards", null=True
+    )

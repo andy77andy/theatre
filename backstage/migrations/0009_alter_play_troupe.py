@@ -5,15 +5,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0008_alter_play_director'),
+        ("backstage", "0008_alter_play_director"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='play',
-            name='troupe',
-            field=models.ManyToManyField(related_name='plays', to=settings.AUTH_USER_MODEL),
+            model_name="play",
+            name="troupe",
+            field=models.ManyToManyField(
+                related_name="plays", to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]

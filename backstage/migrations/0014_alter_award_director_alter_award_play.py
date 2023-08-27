@@ -5,20 +5,29 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0013_remove_director_awards_remove_play_awards_and_more'),
+        ("backstage", "0013_remove_director_awards_remove_play_awards_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='award',
-            name='director',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='director_awards', to='backstage.director'),
+            model_name="award",
+            name="director",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="director_awards",
+                to="backstage.director",
+            ),
         ),
         migrations.AlterField(
-            model_name='award',
-            name='play',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='play_awards', to='backstage.play'),
+            model_name="award",
+            name="play",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="play_awards",
+                to="backstage.play",
+            ),
         ),
     ]

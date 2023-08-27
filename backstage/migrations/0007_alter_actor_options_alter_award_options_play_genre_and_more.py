@@ -5,38 +5,54 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0006_alter_actor_awards'),
+        ("backstage", "0006_alter_actor_awards"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='actor',
-            options={'ordering': ['last_name'], 'verbose_name_plural': 'actors'},
+            name="actor",
+            options={"ordering": ["last_name"], "verbose_name_plural": "actors"},
         ),
         migrations.AlterModelOptions(
-            name='award',
-            options={'ordering': ['name']},
+            name="award",
+            options={"ordering": ["name"]},
         ),
         migrations.AddField(
-            model_name='play',
-            name='genre',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='actors', to='backstage.genre'),
+            model_name="play",
+            name="genre",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="actors",
+                to="backstage.genre",
+            ),
         ),
         migrations.AlterField(
-            model_name='director',
-            name='awards',
-            field=models.ManyToManyField(blank=True, null=True, related_name='director_awards', to='backstage.award'),
+            model_name="director",
+            name="awards",
+            field=models.ManyToManyField(
+                blank=True,
+                null=True,
+                related_name="director_awards",
+                to="backstage.award",
+            ),
         ),
         migrations.AlterField(
-            model_name='play',
-            name='awards',
-            field=models.ManyToManyField(blank=True, related_name='awards', to='backstage.award'),
+            model_name="play",
+            name="awards",
+            field=models.ManyToManyField(
+                blank=True, related_name="awards", to="backstage.award"
+            ),
         ),
         migrations.AlterField(
-            model_name='play',
-            name='director',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='actors', to='backstage.director'),
+            model_name="play",
+            name="director",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="actors",
+                to="backstage.director",
+            ),
         ),
     ]

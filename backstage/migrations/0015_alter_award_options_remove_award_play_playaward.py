@@ -5,28 +5,43 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0014_alter_award_director_alter_award_play'),
+        ("backstage", "0014_alter_award_director_alter_award_play"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='award',
+            name="award",
             options={},
         ),
         migrations.RemoveField(
-            model_name='award',
-            name='play',
+            model_name="award",
+            name="play",
         ),
         migrations.CreateModel(
-            name='PlayAward',
+            name="PlayAward",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('nomination', models.CharField(max_length=50, null=True)),
-                ('year', models.PositiveIntegerField()),
-                ('play', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='awards', to='backstage.play')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                ("nomination", models.CharField(max_length=50, null=True)),
+                ("year", models.PositiveIntegerField()),
+                (
+                    "play",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="awards",
+                        to="backstage.play",
+                    ),
+                ),
             ],
         ),
     ]

@@ -6,19 +6,23 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0011_alter_award_options_remove_actor_awards_and_more'),
+        ("backstage", "0011_alter_award_options_remove_actor_awards_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='actor',
-            name='awards',
+            model_name="actor",
+            name="awards",
         ),
         migrations.AddField(
-            model_name='award',
-            name='actor',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='awards', to=settings.AUTH_USER_MODEL),
+            model_name="award",
+            name="actor",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="awards",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

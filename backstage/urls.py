@@ -31,65 +31,67 @@ from backstage.views import (
     ReviewListView,
     ReviewCreateView,
     ReviewDeleteView,
-    ReviewDetailView
+    ReviewDetailView,
 )
 
 urlpatterns = [
     path("", index, name="index"),
     path("actors/", ActorListView.as_view(), name="actor-list"),
-    path(
-        "actors/<int:pk>/", ActorDetailView.as_view(), name="actor-detail"
-    ),
+    path("actors/<int:pk>/", ActorDetailView.as_view(), name="actor-detail"),
     path("actors/create/", ActorCreateView.as_view(), name="actor-create"),
-    path("actors/<int:pk>/update/",
-         ActorUpdateView.as_view(), name="actor-update"),
-    path("actors/<int:pk>/delete/",
-         ActorDeleteView.as_view(), name="actor-delete"),
+    path("actors/<int:pk>/update/", ActorUpdateView.as_view(), name="actor-update"),
+    path("actors/<int:pk>/delete/", ActorDeleteView.as_view(), name="actor-delete"),
     path("directors/", DirectorListView.as_view(), name="director-list"),
+    path("directors/<int:pk>/", DirectorDetailView.as_view(), name="director-detail"),
+    path("directors/create/", DirectorCreateView.as_view(), name="director-create"),
     path(
-        "directors/<int:pk>/",
-        DirectorDetailView.as_view(), name="director-detail"
+        "directors/<int:pk>/update/",
+        DirectorUpdateView.as_view(),
+        name="director-update",
     ),
-    path("directors/create/",
-         DirectorCreateView.as_view(), name="director-create"),
-    path("directors/<int:pk>/update/",
-         DirectorUpdateView.as_view(), name="director-update"),
-    path("directors/<int:pk>/delete/",
-         DirectorDeleteView.as_view(), name="director-delete"),
+    path(
+        "directors/<int:pk>/delete/",
+        DirectorDeleteView.as_view(),
+        name="director-delete",
+    ),
     path("genres/", GenreListView.as_view(), name="genre-list"),
     path("genres/create/", GenreCreateView.as_view(), name="genre-create"),
-    path("genres/<int:pk>/update/",
-         GenreUpdateView.as_view(), name="genre-update"),
-    path("genres/<int:pk>/delete/",
-         GenreDeleteView.as_view(), name="genre-delete"),
+    path("genres/<int:pk>/update/", GenreUpdateView.as_view(), name="genre-update"),
+    path("genres/<int:pk>/delete/", GenreDeleteView.as_view(), name="genre-delete"),
     path("reviews/", ReviewListView.as_view(), name="review-list"),
     path("reviews/create/", ReviewCreateView.as_view(), name="review-create"),
-    path("reviews/<int:pk>/detail/",
-         ReviewDetailView.as_view(), name="review-detail"),
-    path("reviews/<int:pk>/delete/",
-         ReviewDeleteView.as_view(), name="review-delete"),
+    path("reviews/<int:pk>/detail/", ReviewDetailView.as_view(), name="review-detail"),
+    path("reviews/<int:pk>/delete/", ReviewDeleteView.as_view(), name="review-delete"),
     path("plays/current/", PlayListView.as_view(), name="play-current"),
     path("plays/upcoming/", PlayListView.as_view(), name="play-upcoming"),
     path("plays/archive/", PlayListView.as_view(), name="play-archive"),
-    path(
-        "plays/<int:pk>/", PlayDetailView.as_view(), name="play-detail"
-    ),
-    path(
-        "plays/create/", PlayCreateView.as_view(), name="play-create"
-    ),
+    path("plays/<int:pk>/", PlayDetailView.as_view(), name="play-detail"),
+    path("plays/create/", PlayCreateView.as_view(), name="play-create"),
     path("plays/<int:pk>/update/", PlayUpdateView.as_view(), name="play-update"),
     path("plays/<int:pk>/delete/", PlayDeleteView.as_view(), name="play-delete"),
     path("awards/", AwardListView.as_view(), name="award-list"),
     path("awards/<int:pk>/update/", AwardUpdateView.as_view(), name="award-update"),
-    path('actors/<int:pk>/add_award/',
-         AwardCreateView.as_view(), name='actor_award_create'),
-    path('directors/<int:pk>/add_award/',
-         DirectorAwardCreateView.as_view(), name='director_award_create'),
-    path('plays/<int:pk>/add_award/',
-         PlayAwardCreateView.as_view(), name='play_award_create'),
+    path(
+        "actors/<int:pk>/add_award/",
+        AwardCreateView.as_view(),
+        name="actor_award_create",
+    ),
+    path(
+        "directors/<int:pk>/add_award/",
+        DirectorAwardCreateView.as_view(),
+        name="director_award_create",
+    ),
+    path(
+        "plays/<int:pk>/add_award/",
+        PlayAwardCreateView.as_view(),
+        name="play_award_create",
+    ),
     path("awards/<int:pk>/delete/", delete_award, name="award-delete"),
-    path("awards/<int:pk>/delete-award/",
-         AwardDeleteView.as_view(), name="award-delete-from-list"),
+    path(
+        "awards/<int:pk>/delete-award/",
+        AwardDeleteView.as_view(),
+        name="award-delete-from-list",
+    ),
 ]
 
 app_name = "backstage"

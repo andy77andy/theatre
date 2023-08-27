@@ -5,20 +5,25 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0009_alter_play_troupe'),
+        ("backstage", "0009_alter_play_troupe"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='play',
-            name='day_of_premiere',
+            model_name="play",
+            name="day_of_premiere",
             field=models.DateField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='play',
-            name='genre',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='plays', to='backstage.genre'),
+            model_name="play",
+            name="genre",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="plays",
+                to="backstage.genre",
+            ),
         ),
     ]

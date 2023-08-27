@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0018_alter_actor_average_fee'),
+        ("backstage", "0018_alter_actor_average_fee"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='actor',
-            name='average_fee',
+            model_name="actor",
+            name="average_fee",
             field=models.PositiveIntegerField(default=1000),
         ),
     ]

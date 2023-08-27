@@ -5,47 +5,58 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0010_alter_play_day_of_premiere_alter_play_genre'),
+        ("backstage", "0010_alter_play_day_of_premiere_alter_play_genre"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='award',
-            options={'verbose_name_plural': 'awards'},
+            name="award",
+            options={"verbose_name_plural": "awards"},
         ),
         migrations.RemoveField(
-            model_name='actor',
-            name='awards',
+            model_name="actor",
+            name="awards",
         ),
         migrations.AlterField(
-            model_name='award',
-            name='name',
+            model_name="award",
+            name="name",
             field=models.CharField(max_length=50),
         ),
         migrations.AlterField(
-            model_name='award',
-            name='nomination',
+            model_name="award",
+            name="nomination",
             field=models.CharField(max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='award',
-            name='year',
+            model_name="award",
+            name="year",
             field=models.PositiveIntegerField(),
         ),
         migrations.RemoveField(
-            model_name='director',
-            name='awards',
+            model_name="director",
+            name="awards",
         ),
         migrations.AddField(
-            model_name='actor',
-            name='awards',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='actor', to='backstage.award'),
+            model_name="actor",
+            name="awards",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="actor",
+                to="backstage.award",
+            ),
         ),
         migrations.AddField(
-            model_name='director',
-            name='awards',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='director', to='backstage.award'),
+            model_name="director",
+            name="awards",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="director",
+                to="backstage.award",
+            ),
         ),
     ]

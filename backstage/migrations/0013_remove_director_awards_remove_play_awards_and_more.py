@@ -6,28 +6,37 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0012_remove_actor_awards_award_actor'),
+        ("backstage", "0012_remove_actor_awards_award_actor"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='director',
-            name='awards',
+            model_name="director",
+            name="awards",
         ),
         migrations.RemoveField(
-            model_name='play',
-            name='awards',
+            model_name="play",
+            name="awards",
         ),
         migrations.AddField(
-            model_name='award',
-            name='director',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='director_awards', to=settings.AUTH_USER_MODEL),
+            model_name="award",
+            name="director",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="director_awards",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='award',
-            name='play',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='play_awards', to=settings.AUTH_USER_MODEL),
+            model_name="award",
+            name="play",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="play_awards",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

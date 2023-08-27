@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('backstage', '0005_actor_year_of_joining'),
+        ("backstage", "0005_actor_year_of_joining"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='actor',
-            name='awards',
-            field=models.ManyToManyField(blank=True, null=True, related_name='actor_awards', to='backstage.award'),
+            model_name="actor",
+            name="awards",
+            field=models.ManyToManyField(
+                blank=True, null=True, related_name="actor_awards", to="backstage.award"
+            ),
         ),
     ]

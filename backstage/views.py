@@ -13,13 +13,12 @@ from backstage.forms import (
     PlayForm,
     PlaySearchForm,
     ActorSearchForm,
-    AwardForm
+    AwardForm,
 )
 from backstage.models import Award, Actor, Director, Play, Genre, Review
 
 
 def index(request):
-
     num_actors = Actor.objects.count()
     num_directors = Director.objects.count()
     num_plays = Play.objects.count()
@@ -39,9 +38,7 @@ def index(request):
 
 class ActorListView(LoginRequiredMixin, generic.ListView):
     model = Actor
-    queryset = (
-        Actor.objects.prefetch_related("awards")
-    )
+    queryset = Actor.objects.prefetch_related("awards")
     paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -50,17 +47,14 @@ class ActorListView(LoginRequiredMixin, generic.ListView):
 
         last_name = self.request.GET.get("last_name", "")
 
-        context["search"] = ActorSearchForm(
-            initial={"last_name": last_name}
-        )
+        context["search"] = ActorSearchForm(initial={"last_name": last_name})
 
         return context
 
     """redefine method to create convenient search form"""
+
     def get_queryset(self) -> QuerySet:
-        queryset = (
-            Actor.objects.prefetch_related("awards")
-        )
+        queryset = Actor.objects.prefetch_related("awards")
         form = ActorSearchForm(self.request.GET)
 
         if form.is_valid():
@@ -172,9 +166,7 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
 
         name = self.request.GET.get("name", "")
 
-        context["search"] = PlaySearchForm(
-            initial={"name": name}
-        )
+        context["search"] = PlaySearchForm(initial={"name": name})
 
         today = date.today()
         queryset = self.get_queryset()
@@ -183,22 +175,25 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
         archive_plays = queryset.filter(on_stage=False, day_of_premiere__lt=today)
         upcoming_plays = queryset.filter(day_of_premiere__gt=today)
 
-        context.update({
-            "current_plays": current_plays,
-            "archive_plays": archive_plays,
-            "upcoming_plays": upcoming_plays
-        })
+        context.update(
+            {
+                "current_plays": current_plays,
+                "archive_plays": archive_plays,
+                "upcoming_plays": upcoming_plays,
+            }
+        )
 
         return context
 
     """in this method we define template depending on required plays type"""
+
     def get_template_names(self) -> list[str]:
-        if 'current' in self.request.path:
-            return ['backstage/current_plays.html']
+        if "current" in self.request.path:
+            return ["backstage/current_plays.html"]
         elif "archive" in self.request.path:
-            return ['backstage/play_archive.html']
-        elif 'upcoming' in self.request.path:
-            return ['backstage/upcoming_plays.html']
+            return ["backstage/play_archive.html"]
+        elif "upcoming" in self.request.path:
+            return ["backstage/upcoming_plays.html"]
         else:
             return super().get_template_names()
 
@@ -243,6 +238,8 @@ class AwardListView(LoginRequiredMixin, generic.ListView):
 
 
 """below, create views to be able to add the award on the recipient's page"""
+
+
 class AwardCreateView(LoginRequiredMixin, generic.CreateView):
     model = Award
     form_class = AwardForm
@@ -261,12 +258,14 @@ class AwardCreateView(LoginRequiredMixin, generic.CreateView):
             award = form.save(commit=False)
             award.actor_id = pk  # Assign the actor to the award
             award.save()
-            return redirect('backstage:actor-detail', pk=pk)
+            return redirect("backstage:actor-detail", pk=pk)
         else:
-            return redirect('backstage:award_create', pk=pk)
+            return redirect("backstage:award_create", pk=pk)
 
     def get_success_url(self):
-        return reverse_lazy('backstage:actor-detail', kwargs={"pk": self.kwargs.get("pk")})
+        return reverse_lazy(
+            "backstage:actor-detail", kwargs={"pk": self.kwargs.get("pk")}
+        )
 
 
 class DirectorAwardCreateView(LoginRequiredMixin, generic.CreateView):
@@ -287,12 +286,14 @@ class DirectorAwardCreateView(LoginRequiredMixin, generic.CreateView):
             award = form.save(commit=False)
             award.director_id = pk  # Assign the actor to the award
             award.save()
-            return redirect('backstage:director-detail', pk=pk)
+            return redirect("backstage:director-detail", pk=pk)
         else:
-            return redirect('backstage:director_award_create', pk=pk)
+            return redirect("backstage:director_award_create", pk=pk)
 
     def get_success_url(self):
-        return reverse_lazy('backstage:director-detail', kwargs={"pk": self.kwargs.get("pk")})
+        return reverse_lazy(
+            "backstage:director-detail", kwargs={"pk": self.kwargs.get("pk")}
+        )
 
 
 class PlayAwardCreateView(LoginRequiredMixin, generic.CreateView):
@@ -313,12 +314,14 @@ class PlayAwardCreateView(LoginRequiredMixin, generic.CreateView):
             award = form.save(commit=False)
             award.play_id = pk  # Assign the actor to the award
             award.save()
-            return redirect('backstage:play-detail', pk=pk)
+            return redirect("backstage:play-detail", pk=pk)
         else:
-            return redirect('backstage:play_award_create', pk=pk)
+            return redirect("backstage:play_award_create", pk=pk)
 
     def get_success_url(self):
-        return reverse_lazy('backstage:play-detail', kwargs={"pk": self.kwargs.get("pk")})
+        return reverse_lazy(
+            "backstage:play-detail", kwargs={"pk": self.kwargs.get("pk")}
+        )
 
 
 class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -334,6 +337,8 @@ class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 
 """Create a function to delete award with different beneficiaries"""
+
+
 def delete_award(request, pk):
     award = Award.objects.get(pk=pk)
 
@@ -341,16 +346,16 @@ def delete_award(request, pk):
     related_object_id = None
 
     if award.actor:
-        related_object_type = 'actor'
+        related_object_type = "actor"
         related_object_id = award.actor.id
     elif award.director:
-        related_object_type = 'director'
+        related_object_type = "director"
         related_object_id = award.director.id
     elif award.play:
-        related_object_type = 'play'
+        related_object_type = "play"
         related_object_id = award.play.id
     award.delete()
 
     if related_object_type and related_object_id:
-        return redirect(f'backstage:{related_object_type}-detail', pk=related_object_id)
+        return redirect(f"backstage:{related_object_type}-detail", pk=related_object_id)
     return redirect("backstage:award-list")
