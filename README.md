@@ -13,7 +13,7 @@ Python3 must be already installed
 
 ```python
 git clone://github.com/andy77andy/theatre
-cd thetre
+cd theatre
 pythone -m venv venv 
 source venv/bin/activate
 pip install -r requirements/txt
