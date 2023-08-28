@@ -5,7 +5,7 @@ take a look at his story and get acquainted with his immediate plans
  
 ## Check it out!
 
-[Thetre service project](https://)
+[Theatre service project](https://)
 
 ## Installation
 Python3 must be already installed
