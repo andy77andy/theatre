@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'includes/base.html' %}
+<br>
+<br>
+{% block content %}
+  <div class="marg-left">
+  <br>
+    <div  class="button-container float-right">
+    <p><a  href="{% url 'backstage:play-delete' pk=play.id%}" class="btn btn-danger link-to-page">
+        Delete
+      </a></p>
+    <p><a href="{% url 'backstage:play-update' pk=play.id %}" class="btn btn-success link-to-page">
+        Update
+      </a></p></div>
+  <h1 style="color: lightsteelblue">{{ play.name }}, {{ play.genre}}</h1>
+    <p><strong>Director: </strong> {{ play.director.first_name }} {{ play.director.last_name }}</p>
+  {% if play.troupe.all != 0 %}
+    <p><strong>Troupe:</strong></p>
+    {% for actor in play.troupe.all %}
+      <lI style="margin-left: 10px; color: lightsteelblue" ><a href="{% url 'backstage:actor-detail' pk=actor.id %}">{{ actor.first_name }} {{ actor.last_name }}</a></lI>
+    {% endfor %}
+  {% endif %}
+  <br>
+    <p><strong> On Stage Since: </strong> {{ play.day_of_premiere }} </p>
+    <strong>Brief: </strong>
+    <p style="margin-left: 10px">{{ play.description }}</p>
+         {% if play.play_awards.all != 0 %}
+        <p style="margin-top: 10px"><strong>Awards:</strong></p>
+      {% for award in play.play_awards.all %}
+        <li>{{ award.name }} ({{ award.nomination }}, {{ award.year }})
+        <a style="float: bottom" href="{% url "backstage:award-delete" pk=award.id %}"  class="btn link-danger link-to-page">Delete award</a></li>
+      {% endfor %}
+      {% endif %}
+     <a style="float: bottom" href="{% url "backstage:play_award_create" pk=play.id %}"  class="btn btn-outline-dark link-to-page"><h5>Add award</h5></a>
+
+ </div>
+{% endblock %}

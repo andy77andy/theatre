@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'includes/base.html' %}
+
+{% block content %}
+  <div class="marg-left">
+  <h1>Your really want to Delete review?</h1>
+  <form action="" method="post">
+    {% csrf_token %}
+
+    <input type="submit" value="Yes" class="btn btn-danger">
+  </form>
+  </div>
+{% endblock %}

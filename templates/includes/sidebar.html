@@ -1,0 +1,19 @@
+{% load static %}
+
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
+  <div >
+
+      <span class="ms-1 font-weight-bold shadow-card"><strong>Theatre Service</strong></span>
+    </a>
+    <img src="{% static 'icons/theater.png' %}" class="navbar-brand-img  max-height-250 shadow" alt="">
+  </div>
+  <hr class="horizontal dark mt-0">
+  <ul class="sidebar-nav list-group text-primary shadow">
+
+  <br>
+  <li class="list-group-item  shadow"><a href="{% url 'backstage:index' %}">Home</a></li>
+  <li class="list-group-item shadow"><a href="{% url 'backstage:actor-list' %}">All actors</a></li>
+  <li class="list-group-item shadow"><a href="{% url 'backstage:director-list' %}">All directors</a></li>
+  </ul>
+  <div class="gradient"></div>
+</aside>

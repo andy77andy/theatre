@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'includes/base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block content %}
+    <div class="marg-left" style="color: lavender">
+
+    <h2 style="color: lavender">Awards</h2>
+        {% if award_list %}
+            {% for award in award_list %}
+              <hr>
+                  <h5 style="color: white">{{ award.name }}, {{ award.nomination }}, {{ award.year}} -
+                  {% if award.actor %} {{ award.actor.first_name }}  {{ award.actor.last_name }}{% endif %}
+                  {% if award.play %} {{ award.play.name}} {% endif %}
+                  {% if award.director %} {{ award.director}} {% endif %}</h5>
+              <div   class="form-inline"><a href="{% url "backstage:award-delete-from-list" pk=award.id %}">(delete award)</a></div>
+            {% endfor %}
+            {% else %}
+            <p>There are no awards entered yet</p>
+        {% endif %}
+
+</div>
+{% endblock %}
