@@ -348,9 +348,6 @@ class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
         elif award.play:
             related_object_type = "play"
             related_object_id = award.play.id
-        print(related_object_id)
-        print(related_object_type)
-        print(self.kwargs)
         if related_object_type and related_object_id:
             return reverse_lazy(f"backstage:{related_object_type}-detail", args=[related_object_id])
         return reverse_lazy("backstage:award-list")
