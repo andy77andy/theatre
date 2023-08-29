@@ -26,7 +26,7 @@ from backstage.views import (
     PlayDeleteView,
     DirectorAwardCreateView,
     PlayAwardCreateView,
-    delete_award,
+    # delete_award,
     AwardDeleteView,
     ReviewListView,
     ReviewCreateView,
@@ -86,12 +86,12 @@ urlpatterns = [
         PlayAwardCreateView.as_view(),
         name="play_award_create",
     ),
-    path("awards/<int:pk>/delete/", delete_award, name="award-delete"),
-    path(
-        "awards/<int:pk>/delete-award/",
-        AwardDeleteView.as_view(),
-        name="award-delete-from-list",
-    ),
+    path("awards/<int:pk>/delete/", AwardDeleteView.as_view(), name="award-delete"),
+    # path(
+    #     "awards/<int:pk>/delete-award/",
+    #     AwardDeleteView.as_view(),
+    #     name="award-delete-from-list",
+    # ),
 ]
 
 app_name = "backstage"
