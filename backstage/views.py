@@ -4,7 +4,7 @@ from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views import generic
 
 from backstage.forms import (
@@ -341,13 +341,13 @@ class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
 
         if award.actor:
             related_object_type = "actor"
-            related_object_id = award.actor.id
+            related_object_id = award.actor_id
         elif award.director:
             related_object_type = "director"
-            related_object_id = award.director.id
+            related_object_id = award.director_id
         elif award.play:
             related_object_type = "play"
-            related_object_id = award.play.id
+            related_object_id = award.play_id
         if related_object_type and related_object_id:
             return reverse_lazy(f"backstage:{related_object_type}-detail", args=[related_object_id])
         return reverse_lazy("backstage:award-list")

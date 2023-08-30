@@ -87,11 +87,6 @@ urlpatterns = [
         name="play_award_create",
     ),
     path("awards/<int:pk>/delete/", AwardDeleteView.as_view(), name="award-delete"),
-    # path(
-    #     "awards/<int:pk>/delete-award/",
-    #     AwardDeleteView.as_view(),
-    #     name="award-delete-from-list",
-    # ),
 ]
 
 app_name = "backstage"
