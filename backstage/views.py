@@ -187,7 +187,7 @@ class PlayListView(LoginRequiredMixin, generic.ListView):
 
     """in this method we define template depending on required plays type"""
 
-    def get_template_names(self) -> list[str]:
+    def get_template_names(self) -> list:
         if "current" in self.request.path:
             return ["backstage/current_plays.html"]
         elif "archive" in self.request.path:
