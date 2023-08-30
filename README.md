@@ -11,12 +11,12 @@ take a look at his story and get acquainted with his immediate plans
 Python3 must be already installed
 
 ```python
-git clone://github.com/andy77andy/theatre
+git clone github.com/andy77andy/theatre
 cd theatre
 pythone -m venv venv 
 source venv/bin/activate
-pip install -r requirements/txt
-python manage/py runserver
+pip install -r requirements.txt
+python manage.py runserver
 ```
 to check the functionality, you can use appropriate values:
 username: admin

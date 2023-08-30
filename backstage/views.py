@@ -33,7 +33,7 @@ def index(request):
         "num_visits": num_visits + 1,
     }
 
-    return render(request, "backstage/index2.html", context=context)
+    return render(request, "backstage/index.html", context=context)
 
 
 class ActorListView(LoginRequiredMixin, generic.ListView):
@@ -256,7 +256,7 @@ class AwardCreateView(LoginRequiredMixin, generic.CreateView):
         pk = kwargs.get("pk")
         if form.is_valid():
             award = form.save(commit=False)
-            award.actor_id = pk  # Assign the actor to the award
+            award.actor_id = pk
             award.save()
             return redirect("backstage:actor-detail", pk=pk)
         else:
@@ -284,7 +284,7 @@ class DirectorAwardCreateView(LoginRequiredMixin, generic.CreateView):
         pk = kwargs.get("pk")
         if form.is_valid():
             award = form.save(commit=False)
-            award.director_id = pk  # Assign the actor to the award
+            award.director_id = pk
             award.save()
             return redirect("backstage:director-detail", pk=pk)
         else:
@@ -312,7 +312,7 @@ class PlayAwardCreateView(LoginRequiredMixin, generic.CreateView):
         pk = kwargs.get("pk")
         if form.is_valid():
             award = form.save(commit=False)
-            award.play_id = pk  # Assign the actor to the award
+            award.play_id = pk
             award.save()
             return redirect("backstage:play-detail", pk=pk)
         else:
@@ -332,30 +332,22 @@ class AwardUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class AwardDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Award
-    success_url = reverse_lazy("backstage:award-list")
-    template_name = "backstage/award_confirm_delete.html"
 
+    """Redefine this method for more obvious redirecting after deleting award"""
+    def get_success_url(self):
+        award = self.object
+        related_object_type = None
+        related_object_id = None
 
-"""Create a function to delete award with different beneficiaries"""
-
-
-def delete_award(request, pk):
-    award = Award.objects.get(pk=pk)
-
-    related_object_type = None
-    related_object_id = None
-
-    if award.actor:
-        related_object_type = "actor"
-        related_object_id = award.actor.id
-    elif award.director:
-        related_object_type = "director"
-        related_object_id = award.director.id
-    elif award.play:
-        related_object_type = "play"
-        related_object_id = award.play.id
-    award.delete()
-
-    if related_object_type and related_object_id:
-        return redirect(f"backstage:{related_object_type}-detail", pk=related_object_id)
-    return redirect("backstage:award-list")
+        if award.actor:
+            related_object_type = "actor"
+            related_object_id = award.actor_id
+        elif award.director:
+            related_object_type = "director"
+            related_object_id = award.director_id
+        elif award.play:
+            related_object_type = "play"
+            related_object_id = award.play_id
+        if related_object_type and related_object_id:
+            return reverse_lazy(f"backstage:{related_object_type}-detail", args=[related_object_id])
+        return reverse_lazy("backstage:award-list")
