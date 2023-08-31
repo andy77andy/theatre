@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default="django-insecure-9l0e%#^y%c_c!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "https://theatre-mate.onrender.com"]
 
 
 # Application definition
