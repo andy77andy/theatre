@@ -5,7 +5,7 @@ take a look at his story and get acquainted with his immediate plans
  
 ## Check it out!
 
-[Theatre service project]("https://theatre-mate.onrender.com")
+[Theatre service project]("htpps://theatre-mate.onrender.com")
 
 ## Installation
 Python3 must be already installed
@@ -18,8 +18,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 python manage.py runserver
 ```
-to check the functionality, you can use appropriate values:
-username: admin
+to check the functionality, you can use appropriate values:\
+username: admin,
 password: m1m2m3m4
 
 
