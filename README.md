@@ -5,7 +5,7 @@ take a look at his story and get acquainted with his immediate plans
  
 ## Check it out!
 
-[Theatre service project]("https://theatre-mate.onrender.com")
+[Theatre service project](https://theatre-mate.onrender.com)
 
 ## Installation
 Python3 must be already installed
