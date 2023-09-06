@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Actor, Award, Director, Play, Genre
+from .models import Actor, Award, Director, Play, Genre, Review
 
 
 @admin.register(Actor)
@@ -47,6 +47,11 @@ class AwardAdmin(admin.ModelAdmin):
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
     pass
 
 
