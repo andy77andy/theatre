@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", default="django-insecure-9l0e%#^y%c_c!s%xo7zac)$t$pmlrzlf*u-x4^39*_mh#$!ty*")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "theatre-mate.onrender.com"]
 
